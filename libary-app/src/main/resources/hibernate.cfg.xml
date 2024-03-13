@@ -6,7 +6,7 @@
 	<session-factory>
 		<!-- JDBC Properties -->
 		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/java18_shopping</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/libraryupdate</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">123456</property>
 
@@ -26,8 +26,8 @@
 		<property name="hibernate.cache.provider_configuration_file_resource_path">hibernate-ehcache.xml</property>
 	
 		<!-- Entity Mapping -->
-		<!-- <mapping class="persistence.ItemGroup"/>
-		<mapping class="persistence.Item"/>
+		<mapping class="persistence.User"/>
+		<!-- <mapping class="persistence.Item"/>
 		<mapping class="persistence.ItemDetail"/>
 		<mapping class="persistence.Size"/> -->
 		
