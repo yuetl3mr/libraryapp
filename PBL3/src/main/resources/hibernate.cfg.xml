@@ -6,7 +6,7 @@
 	<session-factory>
 		<!-- JDBC Properties -->
 		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/usertest</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/libraryupdatelate</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">123456</property>
 
@@ -28,6 +28,7 @@
 		<!-- Entity Mapping -->
 		<mapping class="persistence.User"/>
 		<mapping class="persistence.ManagerSystem"/>
+		<!-- <mapping class="persistence.ManagerSystem"/> -->
 		<!-- <mapping class="persistence.Reader"/> -->
 		<!-- <mapping class="persistence.ItemDetail"/>
 		<mapping class="persistence.Size"/> -->
