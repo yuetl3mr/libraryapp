@@ -10,4 +10,14 @@ public interface ManagerSystemDao {
 	void save(ManagerSystem managerSystem);
 	
 	ManagerSystem get(String userNam, String password);
+	
+	ManagerSystem getById(Integer integer);
+	
+	void delete(Integer integer);
+	
+	// chi co chuc nang doi mat khau
+	void update(Integer userId, String userName, String password);
+	
+	// sử dụng cho function
+	boolean userNameIsEmpty(String userName);
 }

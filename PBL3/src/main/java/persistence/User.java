@@ -9,6 +9,8 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User {
 	
+	public static Integer MaxId = 0;
+	
 	@Id
 	@Column(name = "userId")
 	private Integer userId;

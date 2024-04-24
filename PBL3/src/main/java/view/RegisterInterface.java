@@ -110,8 +110,9 @@ class RegisterInterface extends JFrame implements ActionListener{
     		new LoginInterface();
     	}
     	if(e.getSource() == registerButton) {
-    		User user = new User(2, nameField.getText(), addressField.getText(), phoneField.getText());
-    		ManagerSystem managerSystem = new ManagerSystem(2, usernameField.getText(), passwordField.getText());
+    		Integer id = userDao.maxId() + 1;
+    		User user = new User(id, nameField.getText(), addressField.getText(), phoneField.getText());
+    		ManagerSystem managerSystem = new ManagerSystem(id, usernameField.getText(), passwordField.getText());
     		userDao.save(user);
     		managerSystemDao.save(managerSystem);
     	}

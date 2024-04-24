@@ -49,11 +49,12 @@ CREATE TABLE BOOK (
     categoryId INT,
     `name` VARCHAR(255),
     author VARCHAR(255),
-    publication DATETIME,
+    publication DATE,
     `status` BOOLEAN,
     CONSTRAINT PK_BOOK PRIMARY KEY (bookId),
     CONSTRAINT FK_BOOK_CATEGORY FOREIGN KEY (categoryId) REFERENCES CATEGORY(categoryId)
 );
+
 
 
 -- 6
@@ -122,6 +123,11 @@ CREATE TABLE ISSUE(
     CONSTRAINT FK_ISSUE_BOOK FOREIGN KEY (bookId) REFERENCES BOOK(bookId),
     CONSTRAINT FK_ISSUE_READER FOREIGN KEY (userId) REFERENCES READER(userId)
 );
+
+INSERT INTO category(categoryId, `name`)
+VALUES (1, 'leonado devenci')
+
+
 
 -- INSERT INTO `USER` (UserID, `Name`, Address, PhoneNumber) VALUES
 -- (1, 'Nguyễn Đức Thanh Phong', 'Hà Giang', '123-456-7890'),

@@ -28,6 +28,15 @@
 		<!-- Entity Mapping -->
 		<mapping class="persistence.User"/>
 		<mapping class="persistence.ManagerSystem"/>
+		<mapping class="persistence.Category"/>
+		<mapping class="persistence.Book"/>
+		<mapping class="persistence.Reader"/>
+		<mapping class="persistence.Staff"/>
+		<mapping class="persistence.Review"/>
+		<mapping class="persistence.Loan"/>
+		<mapping class="persistence.Borrow"/>
+		<mapping class="persistence.Return"/>
+		<mapping class="persistence.Issue"/>
 		<!-- <mapping class="persistence.ManagerSystem"/> -->
 		<!-- <mapping class="persistence.Reader"/> -->
 		<!-- <mapping class="persistence.ItemDetail"/>
