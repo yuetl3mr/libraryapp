@@ -20,6 +20,10 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 											 + "FROM book b \r\n"
 											 + "INNER JOIN category c ON b.categoryId = c.categoryId \r\n"
 											 + "WHERE c.name = :pCategoryName";
+	private static final String findCategoryAndName = "SELECT BOOK.* \r\n"
+			+ "FROM BOOK\r\n"
+			+ "JOIN CATEGORY ON BOOK.categoryId = CATEGORY.categoryId\r\n"
+			+ "WHERE BOOK.name LIKE :pName AND CATEGORY.name LIKE :pCategory";
 	
 	@Override
 	public List<Book> getAllFindName(String string) {
@@ -92,5 +96,11 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 			transaction.rollback();
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public List<Book> getAllFindNameAndCategory(String name, String category) {
+		return openSession().createNativeQuery(findCategoryAndName,Book.class).setParameter("pName", "%"+name+"%").setParameter("pCategory", "%"+category+"%").getResultList();
+		
 	}
 }
