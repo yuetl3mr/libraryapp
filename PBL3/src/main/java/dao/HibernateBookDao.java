@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import dao.template.AbstractHibernateDao;
+import java.math.BigInteger;
 import persistence.Book;
 import persistence.Loan;
 import persistence.Return;
@@ -24,6 +25,8 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 			+ "FROM BOOK\r\n"
 			+ "JOIN CATEGORY ON BOOK.categoryId = CATEGORY.categoryId\r\n"
 			+ "WHERE BOOK.name LIKE :pName AND CATEGORY.name LIKE :pCategory";
+        
+        private static final String totalBook = "SELECT count(*) FROM book";
 	
 	@Override
 	public List<Book> getAllFindName(String string) {
@@ -101,6 +104,12 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 	@Override
 	public List<Book> getAllFindNameAndCategory(String name, String category) {
 		return openSession().createNativeQuery(findCategoryAndName,Book.class).setParameter("pName", "%"+name+"%").setParameter("pCategory", "%"+category+"%").getResultList();
-		
 	}
+
+        public Integer totalBook() {
+            BigInteger bigInteger = (BigInteger)openSession().createNativeQuery(totalBook).getResultList().get(0);
+            return bigInteger.intValue();
+        }
+        
+        
 }

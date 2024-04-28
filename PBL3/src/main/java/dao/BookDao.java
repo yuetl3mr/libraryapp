@@ -21,4 +21,6 @@ public interface BookDao {
 	void update(Integer bookId, Integer categoryId, String name, String author,LocalDate publication,boolean status);
 	
 	List<Book> getAllFindNameAndCategory(String name, String category);
+        
+        Integer totalBook();
 }

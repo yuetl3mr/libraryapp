@@ -68,5 +68,6 @@ public class test {
 //		SqlUtils.generate("test", userDao.getAll());
 //		System.out.println(managerSystemDao.userNameIsEmpty("lehuuquy"));
 		System.out.println(managerSystemDao.get("admin", "adminpass"));
+                System.out.println(bookDao.totalBook());
 	}
 }

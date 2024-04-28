@@ -5,6 +5,7 @@
 package UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.JLabel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -63,6 +64,9 @@ public final class MainUI extends javax.swing.JFrame {
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
+        
+        
+        jLabel11.setText("123");
     }
   
     /**
@@ -556,7 +560,7 @@ public final class MainUI extends javax.swing.JFrame {
                 .addGap(85, 85, 85))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 1250, 670));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 1250, 670));
 
         pack();
         setLocationRelativeTo(null);
@@ -573,6 +577,9 @@ public final class MainUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -601,6 +608,7 @@ public final class MainUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainUI().setVisible(true);
+                
             }
         });
     }
