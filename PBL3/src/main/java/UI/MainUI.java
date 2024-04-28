@@ -14,6 +14,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import utils.Zdata;
 
 /**
  *
@@ -66,7 +67,9 @@ public final class MainUI extends javax.swing.JFrame {
         panelBarChart.validate();
         
         
-        jLabel11.setText("123");
+        jLabel11.setText(""+Zdata.bookDao.totalBook());
+        jLabel9.setText(""+Zdata.userDao.getAll().size());
+        jLabel25.setText(""+Zdata.loanDao.getAll().size());
     }
   
     /**
