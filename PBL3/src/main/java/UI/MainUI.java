@@ -14,6 +14,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import persistence.Borrow;
 import utils.Zdata;
 
 /**
@@ -70,6 +74,24 @@ public final class MainUI extends javax.swing.JFrame {
         jLabel11.setText(""+Zdata.bookDao.totalBook());
         jLabel9.setText(""+Zdata.userDao.getAll().size());
         jLabel25.setText(""+Zdata.loanDao.getAll().size());
+        
+        List<Borrow> borrows = Zdata.borrowDao.getAll();
+        
+        String [] columnNames = {"LoanId", "UserId", "BookId", "BorrowTime", "Note"};
+        
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        for (Borrow rowData : borrows) {
+            Object[] row = {
+                rowData.getLoanId(),
+                rowData.getUserId(),
+                rowData.getBookId(),
+                rowData.getDueTime(),
+                ""
+            };
+        model.addRow(row);
+        }
+        
+        jTable1.setModel(model);
     }
   
     /**

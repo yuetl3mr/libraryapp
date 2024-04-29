@@ -22,6 +22,7 @@ import dao.ReturnDao;
 import dao.ReviewDao;
 import dao.StaffDao;
 import dao.UserDao;
+import java.time.LocalDate;
 import utils.SqlUtils;
 
 public class test {
@@ -67,7 +68,8 @@ public class test {
 //		userDao.update(10, "Hoang Kim Thach", "Quang Tri", "00000");
 //		SqlUtils.generate("test", userDao.getAll());
 //		System.out.println(managerSystemDao.userNameIsEmpty("lehuuquy"));
-		System.out.println(managerSystemDao.get("admin", "adminpass"));
-                System.out.println(bookDao.totalBook());
+//		System.out.println(managerSystemDao.get("admin", "adminpass"));
+//              System.out.println(bookDao.totalBook());
+                //bookDao.saveAmount(Integer.BYTES, string, string1, LocalDate.MIN, true, Integer.BYTES);
 	}
 }

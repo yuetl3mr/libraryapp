@@ -6,6 +6,9 @@ import java.util.List;
 import persistence.Book;
 
 public interface BookDao {
+        
+        Integer maxId();
+    
 	List<Book> getAll();
 	
 	List<Book> getAllFindName(String string);
@@ -19,6 +22,8 @@ public interface BookDao {
 	void delete(Integer integer);
 	
 	void update(Integer bookId, Integer categoryId, String name, String author,LocalDate publication,boolean status);
+        
+        void saveAmount(Integer categoryId, String name, String author,LocalDate publication,boolean status, Integer amount);
 	
 	List<Book> getAllFindNameAndCategory(String name, String category);
         

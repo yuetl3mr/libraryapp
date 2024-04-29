@@ -1,5 +1,8 @@
 package utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,7 +67,22 @@ public class Ex {
 		return false;
 	}
 	
-	
+	public static LocalDate parseToLocalDate(String string){
+            try {
+            // Define the date format
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            
+            // Parse the string to a LocalDate
+                LocalDate date = LocalDate.parse(string, formatter);
+            
+            // Print the LocalDate
+                return date;
+            }   catch (DateTimeParseException e) {
+            // If the string is not in the expected format
+                System.out.println("Error parsing the date: " + e.getMessage());
+            }
+            return null;
+        }
 	
 	
 }
