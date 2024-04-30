@@ -5,6 +5,7 @@
 package UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.JLabel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,6 +14,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import persistence.Borrow;
+import utils.Zdata;
 
 /**
  *
@@ -63,6 +69,29 @@ public final class MainUI extends javax.swing.JFrame {
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
+        
+        
+        jLabel11.setText(""+Zdata.bookDao.totalBook());
+        jLabel9.setText(""+Zdata.userDao.getAll().size());
+        jLabel25.setText(""+Zdata.loanDao.getAll().size());
+        
+        List<Borrow> borrows = Zdata.borrowDao.getAll();
+        
+        String [] columnNames = {"LoanId", "UserId", "BookId", "BorrowTime", "Note"};
+        
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        for (Borrow rowData : borrows) {
+            Object[] row = {
+                rowData.getLoanId(),
+                rowData.getUserId(),
+                rowData.getBookId(),
+                rowData.getDueTime(),
+                ""
+            };
+        model.addRow(row);
+        }
+        
+        jTable1.setModel(model);
     }
   
     /**
@@ -555,7 +584,7 @@ public final class MainUI extends javax.swing.JFrame {
                 .addGap(85, 85, 85))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 1250, 670));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 1250, 670));
 
         pack();
         setLocationRelativeTo(null);
@@ -564,6 +593,9 @@ public final class MainUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -592,6 +624,7 @@ public final class MainUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainUI().setVisible(true);
+                
             }
         });
     }

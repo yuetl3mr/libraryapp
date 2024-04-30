@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import dao.template.AbstractHibernateDao;
+import java.math.BigInteger;
 import persistence.Book;
 import persistence.Loan;
 import persistence.Return;
@@ -24,6 +25,9 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 			+ "FROM BOOK\r\n"
 			+ "JOIN CATEGORY ON BOOK.categoryId = CATEGORY.categoryId\r\n"
 			+ "WHERE BOOK.name LIKE :pName AND CATEGORY.name LIKE :pCategory";
+        
+        private static final String totalBook = "SELECT count(*) FROM book";
+        private static final String getMaxId = "SELECT MAX(bookId) FROM book";
 	
 	@Override
 	public List<Book> getAllFindName(String string) {
@@ -97,10 +101,30 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 			e.printStackTrace();
 		}
 	}
+
+        public void saveAmount(Integer categoryId, String name, String author, LocalDate publication, boolean status, Integer amount) {
+            for(int i = 0; i < + amount; i++){
+                Integer maxId = maxId() + 1;
+                Book book = new Book(maxId, categoryId, name, author, publication, true);
+                save(book);
+            }
+        }
+        
+        
 	
 	@Override
 	public List<Book> getAllFindNameAndCategory(String name, String category) {
 		return openSession().createNativeQuery(findCategoryAndName,Book.class).setParameter("pName", "%"+name+"%").setParameter("pCategory", "%"+category+"%").getResultList();
-		
 	}
+
+        public Integer totalBook() {
+            BigInteger bigInteger = (BigInteger)openSession().createNativeQuery(totalBook).getResultList().get(0);
+            return bigInteger.intValue();
+        }
+        
+        @Override
+	public Integer maxId() {
+		return (Integer)openSession().createNativeQuery(getMaxId).getResultList().get(0);
+	}
+        
 }
