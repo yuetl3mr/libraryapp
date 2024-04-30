@@ -70,7 +70,7 @@ public class Ex {
 	public static LocalDate parseToLocalDate(String string){
             try {
             // Define the date format
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
             
             // Parse the string to a LocalDate
                 LocalDate date = LocalDate.parse(string, formatter);

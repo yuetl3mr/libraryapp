@@ -55,7 +55,7 @@ public class test {
 //		SqlUtils.generate("test", userDao.getAll());
 //		SqlUtils.generate("test", managerSystemDao.getAll());
 //		SqlUtils.generate("test", categoryDao.getAll());
-//		SqlUtils.generate("test", bookDao.getAll());
+		SqlUtils.generate("test", bookDao.getAll());
 //		SqlUtils.generate("test", readerDao.getAll());
 //		SqlUtils.generate("test", staffDao.getAll());
 //		SqlUtils.generate("test", reviewDao.getAll());
