@@ -6,6 +6,9 @@ package UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,6 +17,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import persistence.Book;
+import persistence.Borrow;
 import utils.Ex;
 import utils.Zdata;
 
@@ -28,8 +33,31 @@ public final class BookManage extends javax.swing.JFrame {
      */
     public BookManage() {
         initComponents();
+        showPieChart();
     }
      
+    
+    public void showPieChart(){
+        
+        List<Book> books = Zdata.bookDao.getAll();
+        
+        String [] columnNames = {"BookId", "Name", "Author", "categories", "Publication", "Status"};
+        
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        for (Book book : books) {
+            Object[] row = {
+                book.getBookId(),
+                book.getName(),
+                book.getAuthor(),
+                book.getCategoryId(),
+                book.getPublication(),
+                book.isStatus()
+            };
+        model.addRow(row);
+        }
+        
+        jTable1.setModel(model);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,6 +452,11 @@ public final class BookManage extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add Book");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -582,7 +615,7 @@ public final class BookManage extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BookID", "Name", "Author", "Status" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BookID", "Name", "Author", "Status", "Category" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -810,8 +843,36 @@ public final class BookManage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String selectValue = (String)jComboBox1.getSelectedItem();
+        String [] columnNames = {"BookId", "Name", "Author", "categories", "Publication", "Status"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        List<Book> books = new ArrayList<>();
+        if("".equals(jTextField1.getText())){
+            //DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+            books = Zdata.bookDao.getAll();
+            
+        }else{
+            if("Category".equals(selectValue)){
+                books = Zdata.bookDao.getAllFindCategory(jTextField1.getText());
+                
+            }else if("Name".equals(selectValue)){
+                books = Zdata.bookDao.getAllFindName(jTextField1.getText());
+            }
+        }
+        for (Book book : books) {
+                    Object[] row = {
+                        book.getBookId(),
+                        book.getName(),
+                        book.getAuthor(),
+                        book.getCategoryId(),
+                        book.getPublication(),
+                        book.isStatus()
+                    };
+                model.addRow(row);
+        jTable1.setModel(model);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
@@ -827,7 +888,9 @@ public final class BookManage extends javax.swing.JFrame {
         LocalDate publicationText = Ex.parseToLocalDate(jTextField4.getText());
         Integer categoryText = Integer.parseInt(jTextField5.getText());
         Integer amountText = Integer.parseInt(jTextField6.getText());
+        // them succes
         Zdata.bookDao.saveAmount(categoryText, nameText, authorText, publicationText, true, amountText);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -864,6 +927,11 @@ public final class BookManage extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        // them sucsess
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments

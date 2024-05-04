@@ -22,6 +22,8 @@ import dao.ReturnDao;
 import dao.ReviewDao;
 import dao.StaffDao;
 import dao.UserDao;
+import dao.BookDtoDao;
+import dao.HibernateBookDtoDao;
 import java.time.LocalDate;
 import utils.SqlUtils;
 
@@ -37,6 +39,7 @@ public class test {
 	private static BorrowDao borrowDao;
 	private static ReturnDao returnDao;
 	private static IssueDao issueDao;
+        private static BookDtoDao bookDtoDao;
 	static {
 		userDao = new HibernateUserDao();
 		managerSystemDao = new HibernateManagerSystemDao();
@@ -49,13 +52,14 @@ public class test {
 		borrowDao = new HibernateBorrowDao();
 		returnDao = new HibernateReturnDao();
 		issueDao = new HibernateIssueDao();
+                bookDtoDao = new HibernateBookDtoDao();
 	}
 
 	public static void main(String[] args) {
 //		SqlUtils.generate("test", userDao.getAll());
 //		SqlUtils.generate("test", managerSystemDao.getAll());
 //		SqlUtils.generate("test", categoryDao.getAll());
-		SqlUtils.generate("test", bookDao.getAll());
+//		SqlUtils.generate("test", bookDao.getAll());
 //		SqlUtils.generate("test", readerDao.getAll());
 //		SqlUtils.generate("test", staffDao.getAll());
 //		SqlUtils.generate("test", reviewDao.getAll());
@@ -71,5 +75,6 @@ public class test {
 //		System.out.println(managerSystemDao.get("admin", "adminpass"));
 //              System.out.println(bookDao.totalBook());
                 //bookDao.saveAmount(Integer.BYTES, string, string1, LocalDate.MIN, true, Integer.BYTES);
+//                SqlUtils.generate("test", bookDtoDao.getAll());
 	}
 }

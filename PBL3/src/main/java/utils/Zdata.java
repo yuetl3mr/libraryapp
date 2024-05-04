@@ -5,9 +5,11 @@
 package utils;
 
 import dao.BookDao;
+import dao.BookDtoDao;
 import dao.BorrowDao;
 import dao.CategoryDao;
 import dao.HibernateBookDao;
+import dao.HibernateBookDtoDao;
 import dao.HibernateBorrowDao;
 import dao.HibernateCategoryDao;
 import dao.HibernateIssueDao;
@@ -43,6 +45,7 @@ public class Zdata {
 	public static BorrowDao borrowDao;
 	public static ReturnDao returnDao;
 	public static IssueDao issueDao;
+        public static BookDtoDao bookDtoDao;
 	static {
 		userDao = new HibernateUserDao();
 		managerSystemDao = new HibernateManagerSystemDao();
@@ -55,5 +58,6 @@ public class Zdata {
 		borrowDao = new HibernateBorrowDao();
 		returnDao = new HibernateReturnDao();
 		issueDao = new HibernateIssueDao();
+                bookDtoDao = new HibernateBookDtoDao();
 	}
 }

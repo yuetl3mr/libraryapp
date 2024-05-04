@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -19,6 +20,8 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import persistence.Borrow;
 import utils.Zdata;
+import dto.BookDto;
+import persistence.Book;
 
 /**
  *
@@ -33,52 +36,55 @@ public final class MainUI extends javax.swing.JFrame {
         initComponents();
         showPieChart();
     }
-    
-    public void showPieChart(){
-  
+
+    public void showPieChart() {
+
+        List<BookDto> listBookDto = Zdata.bookDtoDao.getAll();
         //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "Arts & Music" , 20 );  
-      barDataset.setValue( "Biographies" ,  20 );   
-      barDataset.setValue( "Business" , 40 );    
-      barDataset.setValue( "Computers & Tech" , 5 );  
-      barDataset.setValue( "Edu & Reference" , 30 );  
-      barDataset.setValue( "Entertainment" , 10 );  
-      barDataset.setValue( "Mysteries" , 10 );  
-      
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Book Category",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-        piePlot.setSectionPaint("Arts & Music", new Color(255,255,102));
-        piePlot.setSectionPaint("Biographies", new Color(102,255,102));
-        piePlot.setSectionPaint("Computers & Tech", new Color(255,102,153));
-        piePlot.setSectionPaint("Business", new Color(0,204,204));
-        piePlot.setSectionPaint("Edu & Reference", new Color(0,100,204));
-        piePlot.setSectionPaint("Entertainment", new Color(0,204,100));
-        piePlot.setSectionPaint("Mysteries", new Color(100,255,0));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
+        DefaultPieDataset barDataset = new DefaultPieDataset();
+        for(BookDto bookDto : listBookDto){
+            barDataset.setValue(bookDto.getName(), bookDto.getCount());
+        }
         
+        
+//        barDataset.setValue("Arts & Music", 20);
+//        barDataset.setValue("Biographies", 20);
+//        barDataset.setValue("Business", 40);
+//        barDataset.setValue("Computers & Tech", 5);
+//        barDataset.setValue("Edu & Reference", 30);
+//        barDataset.setValue("Entertainment", 10);
+//        barDataset.setValue("Mysteries", 10);
+
+        //create chart
+        JFreeChart piechart = ChartFactory.createPieChart("Book Category", barDataset, false, true, false);//explain
+
+        PiePlot piePlot = (PiePlot) piechart.getPlot();
+
+        //changing pie chart blocks colors
+        piePlot.setSectionPaint("Arts & Music", new Color(255, 255, 102));
+        piePlot.setSectionPaint("Biographies", new Color(102, 255, 102));
+        piePlot.setSectionPaint("Computers & Tech", new Color(255, 102, 153));
+        piePlot.setSectionPaint("Business", new Color(0, 204, 204));
+        piePlot.setSectionPaint("Edu & Reference", new Color(0, 100, 204));
+        piePlot.setSectionPaint("Entertainment", new Color(0, 204, 100));
+        piePlot.setSectionPaint("Mysteries", new Color(100, 255, 0));
+
+        piePlot.setBackgroundPaint(Color.white);
+
         //create chartPanel to display chart(graph)
         ChartPanel barChartPanel = new ChartPanel(piechart);
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
-        
-        
-        jLabel11.setText(""+Zdata.bookDao.totalBook());
-        jLabel9.setText(""+Zdata.userDao.getAll().size());
-        jLabel25.setText(""+Zdata.loanDao.getAll().size());
-        
+
+        jLabel11.setText("" + Zdata.bookDao.totalBook());
+        jLabel9.setText("" + Zdata.userDao.getAll().size());
+        jLabel25.setText("" + Zdata.loanDao.getAll().size());
+
         List<Borrow> borrows = Zdata.borrowDao.getAll();
-        
-        String [] columnNames = {"LoanId", "UserId", "BookId", "BorrowTime", "Note"};
-        
+
+        String[] columnNames = {"LoanId", "UserId", "BookId", "BorrowTime", "Note"};
+
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         for (Borrow rowData : borrows) {
             Object[] row = {
@@ -88,12 +94,12 @@ public final class MainUI extends javax.swing.JFrame {
                 rowData.getDueTime(),
                 ""
             };
-        model.addRow(row);
+            model.addRow(row);
         }
-        
+
         jTable1.setModel(model);
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -593,9 +599,6 @@ public final class MainUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -624,7 +627,7 @@ public final class MainUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainUI().setVisible(true);
-                
+
             }
         });
     }
