@@ -13,6 +13,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import utils.Zdata;
+import persistence.User;
 
 /**
  *
@@ -927,6 +929,23 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String nameAdd = jTextField2.getText();
+        String addressAdd = jTextField3.getText();
+        String phoneNumberAdd = jTextField4.getText();
+        boolean isSelect = jRadioButton2.isSelected();
+        boolean isMale = true;
+        if(isSelect){
+            String genderSelect = jRadioButton2.getText();
+            if("Male".equals(genderSelect)){
+                isMale = true;
+            }else{
+                isMale = false;
+            }
+        }else {}
+        
+        User user = new User(Zdata.userDao.maxId() + 1, nameAdd, addressAdd, phoneNumberAdd,isMale);
+        Zdata.userDao.save(user);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -983,10 +1002,21 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        String idUpdate = jTextField5.getText();
+        User user = Zdata.userDao.get(Integer.parseInt(idUpdate));
+        jTextField6.setText(user.getName());
+        jTextField8.setText(user.getAddress());
+        jTextField9.setText(user.getPhoneNumber());
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
+        
+        String nameUpdate = jTextField6.getText();
+        String addressUpdate = jTextField8.getText();
+        String phoneNumber = jTextField9.getText();
+        Zdata.userDao.update(Integer.parseInt(jTextField5.getText()), nameUpdate, addressUpdate, phoneNumber);
+        //String 
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
