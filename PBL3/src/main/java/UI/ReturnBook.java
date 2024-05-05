@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import org.jfree.chart.ChartFactory;
@@ -13,6 +14,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import utils.Zdata;
+import persistence.User;
 
 /**
  *
@@ -26,7 +31,7 @@ public final class ReturnBook extends javax.swing.JFrame {
     public ReturnBook() {
         initComponents();
     }
-     
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -565,6 +570,30 @@ public final class ReturnBook extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String readerId = jTextField11.getText();
+        List<User> users = Zdata.userDao.getAllReader();
+        for (User user : users) {
+            if (user.getUserId() == Integer.parseInt(readerId)) {
+                jTextField10.setText(user.getName());
+                String[] columnNames = {"BookId", "Name", "Author", "category", "Borrowing time", "Borrowing period"};
+                
+                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+//                for (Book book : books) {
+//                    Object[] row = {
+//                        book.getBookId(),
+//                        book.getName(),
+//                        book.getAuthor(),
+//                        book.getCategoryId(),
+//                        book.getPublication(),
+//                        ""
+//                    };
+//                    model.addRow(row);
+//                }
+
+                jTable1.setModel(model);
+                break;
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

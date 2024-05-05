@@ -56,7 +56,7 @@ public class test {
 	}
 
 	public static void main(String[] args) {
-//		SqlUtils.generate("test", userDao.getAll());
+		SqlUtils.generate("test", userDao.getAll());
 //		SqlUtils.generate("test", managerSystemDao.getAll());
 //		SqlUtils.generate("test", categoryDao.getAll());
 //		SqlUtils.generate("test", bookDao.getAll());

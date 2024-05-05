@@ -3,8 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.time.LocalDateTime;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,6 +18,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import utils.Zdata;
 import persistence.User;
+import persistence.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,8 +33,26 @@ public final class UserManage extends javax.swing.JFrame {
      */
     public UserManage() {
         initComponents();
+        showPieChart();
     }
-     
+
+    public void showPieChart() {
+        String[] columnNames = {"User Id", "Name", "Addr", "PhoneNum"};
+        List<User> readers = Zdata.userDao.getAllReader();
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        for (User reader : readers) {
+            Object[] row = {
+                reader.getUserId(),
+                reader.getName(),
+                reader.getAddress(),
+                reader.getPhoneNumber()
+            };
+            model.addRow(row);
+        }
+
+        jTable1.setModel(model);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -921,6 +945,30 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String select = (String)jComboBox1.getSelectedItem();
+        String[] columnNames = {"User Id", "Name", "Addr", "PhoneNum"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        List<User> users = new ArrayList<>();
+        if("".equals(jTextField1.getText())){
+            users = Zdata.userDao.getAllReader();
+        }else {
+            if("UserID".equals(select)){
+                
+            }else if("Name".equals(select)){
+                users = Zdata.userDao.getAllFindNameReader(jTextField1.getText());
+            }
+        }
+        for (User reader : users) {
+            Object[] row = {
+                reader.getUserId(),
+                reader.getName(),
+                reader.getAddress(),
+                reader.getPhoneNumber()
+            };
+            model.addRow(row);
+        }
+
+        jTable1.setModel(model);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -934,18 +982,20 @@ public final class UserManage extends javax.swing.JFrame {
         String phoneNumberAdd = jTextField4.getText();
         boolean isSelect = jRadioButton2.isSelected();
         boolean isMale = true;
-        if(isSelect){
+        if (isSelect) {
             String genderSelect = jRadioButton2.getText();
-            if("Male".equals(genderSelect)){
+            if ("Male".equals(genderSelect)) {
                 isMale = true;
-            }else{
+            } else {
                 isMale = false;
             }
-        }else {}
-        
-        User user = new User(Zdata.userDao.maxId() + 1, nameAdd, addressAdd, phoneNumberAdd,isMale);
+        } else {
+        }
+        Integer maxId = Zdata.userDao.maxId() + 1;
+        User user = new User(maxId, nameAdd, addressAdd, phoneNumberAdd, isMale);
         Zdata.userDao.save(user);
-        
+        Reader reader = new Reader(maxId, LocalDateTime.now());
+        Zdata.readerDao.save(reader);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -962,6 +1012,12 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        String idDelete = jTextField7.getText();
+        if (Zdata.readerDao.get(Integer.parseInt(idDelete)) != null) {
+            Zdata.readerDao.delete(Integer.parseInt(idDelete));
+            Zdata.userDao.delete(Integer.parseInt(idDelete));
+        }
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1003,15 +1059,18 @@ public final class UserManage extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         String idUpdate = jTextField5.getText();
-        User user = Zdata.userDao.get(Integer.parseInt(idUpdate));
-        jTextField6.setText(user.getName());
-        jTextField8.setText(user.getAddress());
-        jTextField9.setText(user.getPhoneNumber());
+        if (Zdata.readerDao.get(Integer.parseInt(idUpdate)) != null) {
+            User user = Zdata.userDao.get(Integer.parseInt(idUpdate));
+            jTextField6.setText(user.getName());
+            jTextField8.setText(user.getAddress());
+            jTextField9.setText(user.getPhoneNumber());
+        };
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        
+
         String nameUpdate = jTextField6.getText();
         String addressUpdate = jTextField8.getText();
         String phoneNumber = jTextField9.getText();

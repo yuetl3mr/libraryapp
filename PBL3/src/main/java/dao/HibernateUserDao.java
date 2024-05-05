@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import dao.template.AbstractHibernateDao;
+import persistence.Reader;
 import persistence.User;
 
 public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
@@ -13,7 +14,16 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
 	private static final String getAll = "SELECT * FROM user";
 	private static final String getMaxId = "SELECT MAX(userId) FROM user";
 	private static final String getId = "SELECT * FROM user WHERE userId = :pId";
-	
+        private static final String getAllReader =  "SELECT `user`.*\n" +
+                                                    "FROM reader\n" +
+                                                    "JOIN `user`\n" +
+                                                    "ON reader.userId = `user`.userId";
+	private static final String getAllFindNameReader = "SELECT `user`.*\n" +
+                                                            "FROM reader\n" +
+                                                            "JOIN `user`\n" +
+                                                            "ON reader.userId = `user`.userId\n" +
+                                                            "WHERE `user`.`name` LIKE :pName";
+        
 	@Override
 	public List<User> getAll() {
 		return openSession().createNativeQuery(getAll,User.class).getResultList();
@@ -80,4 +90,14 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
 			e.printStackTrace();
 		}
 	}
+        
+        @Override
+        public List<User> getAllReader(){
+            return openSession().createNativeQuery(getAllReader,User.class).getResultList();
+        }
+        
+        
+        public List<User> getAllFindNameReader(String Name){
+            return openSession().createNativeQuery(getAllFindNameReader,User.class).setParameter("pName", "%"+Name+"%").getResultList();
+        }
 }
