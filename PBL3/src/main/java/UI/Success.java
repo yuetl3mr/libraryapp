@@ -33,6 +33,7 @@ public class Success extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(254, 253, 237));
+        setMinimumSize(new java.awt.Dimension(165, 100));
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(165, 100));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
