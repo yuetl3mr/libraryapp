@@ -14,6 +14,7 @@ public class HibernateLoanDao extends AbstractHibernateDao implements LoanDao {
 	
 	private static final String getAll = "SELECT * FROM loan";
 	private static final String get = "SELECT * FROM loan WHERE loanId = :pId";
+        private static final String getMaxId = "SELECT MAX(loanId) FROM book";
 	
 	@Override
 	public List<Loan> getAll() {
@@ -56,4 +57,8 @@ public class HibernateLoanDao extends AbstractHibernateDao implements LoanDao {
 			e.printStackTrace();
 		}
 	}
+        
+        public Integer maxId(){
+            return (Integer)openSession().createNativeQuery(getMaxId).getResultList().get(0);
+        }
 }

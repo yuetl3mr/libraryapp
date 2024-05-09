@@ -12,4 +12,6 @@ public interface LoanDao {
 	Loan get(Integer integer);
 	
 	void delete(Integer integer);
+        
+        Integer maxId();
 }

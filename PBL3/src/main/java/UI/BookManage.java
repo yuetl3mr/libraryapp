@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -846,13 +847,23 @@ public final class BookManage extends javax.swing.JFrame {
         if("".equals(jTextField1.getText())){
             //DefaultTableModel model = new DefaultTableModel(columnNames, 0);
             books = Zdata.bookDao.getAll();
-            
         }else{
             if("Category".equals(selectValue)){
-                books = Zdata.bookDao.getAllFindCategory(jTextField1.getText());
-                
+                if(Ex.isNumberic(jTextField1.getText())){
+                    books = Zdata.bookDao.getAllFindCategoryId(Integer.parseInt(jTextField1.getText())); 
+                }else{
+                    JOptionPane.showMessageDialog(null, "hãy nhập số theo bảng category", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }else if("Name".equals(selectValue)){
                 books = Zdata.bookDao.getAllFindName(jTextField1.getText());
+            }else if("Author".equals(selectValue)){
+                books = Zdata.bookDao.getAllFindAuthor(jTextField1.getText());
+            }else if("BookID".equals(selectValue)){
+                if(Ex.isNumberic(jTextField1.getText())){
+                    books = Zdata.bookDao.getBookId(Integer.parseInt(jTextField1.getText())); 
+                }else{
+                    JOptionPane.showMessageDialog(null, "hãy nhập số BookId", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         for (Book book : books) {

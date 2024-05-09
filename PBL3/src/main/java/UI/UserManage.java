@@ -21,6 +21,8 @@ import persistence.User;
 import persistence.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import utils.Ex;
 
 /**
  *
@@ -937,7 +939,14 @@ public final class UserManage extends javax.swing.JFrame {
             users = Zdata.userDao.getAllReader();
         }else {
             if("UserID".equals(select)){
-                
+                if(Ex.isNumberic(jTextField1.getText())){
+                    Integer numberId = Integer.parseInt(jTextField1.getText());
+                    if(Zdata.readerDao.get(numberId) != null){
+                        users = Zdata.userDao.getUserId(numberId);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Nhập số mã ReaderId", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }else if("Name".equals(select)){
                 users = Zdata.userDao.getAllFindNameReader(jTextField1.getText());
             }

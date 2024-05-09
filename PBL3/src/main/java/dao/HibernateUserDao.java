@@ -56,6 +56,10 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
 			return users.get(0);
 		}
 	}
+        
+        public List<User> getUserId(Integer id){
+            return openSession().createNativeQuery(getId,User.class).setParameter("pId", id).getResultList();
+        }
 	
 	@Override
 	public void delete(Integer integer) {
@@ -100,4 +104,6 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
         public List<User> getAllFindNameReader(String Name){
             return openSession().createNativeQuery(getAllFindNameReader,User.class).setParameter("pName", "%"+Name+"%").getResultList();
         }
+        
+        
 }

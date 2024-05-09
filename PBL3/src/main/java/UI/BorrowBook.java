@@ -3,8 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,6 +18,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import persistence.Book;
+import utils.Ex;
+import utils.Zdata;
 
 /**
  *
@@ -25,8 +33,43 @@ public final class BorrowBook extends javax.swing.JFrame {
      */
     public BorrowBook() {
         initComponents();
+        showPieChart();
     }
-     
+
+    public void showPieChart() {
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Book ID", "Book Name"
+                }
+        ) {
+            boolean[] canEdit = new boolean[]{
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        });
+
+        List<Book> books = Zdata.bookDao.getAll();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for (Book book : books) {
+            Object[] row = {
+                book.getBookId(),
+                book.getName(),
+                book.getAuthor(),
+                book.getCategoryId(),
+                book.isStatus()
+            };
+            model.addRow(row);
+        }
+
+        jTable1.setModel(model);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -182,6 +225,11 @@ public final class BorrowBook extends javax.swing.JFrame {
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel11.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -418,6 +466,11 @@ public final class BorrowBook extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setResizable(false);
@@ -457,33 +510,14 @@ public final class BorrowBook extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Book ID", "Name", "Author", "Category", "Status"
+                "BookID", "Name", "Author", "Category", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -497,6 +531,7 @@ public final class BorrowBook extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -618,11 +653,33 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String searchId = jTextField11.getText();
+        if (Ex.isNumberic(searchId)) {
+            if (Zdata.readerDao.get(Integer.parseInt(searchId)) != null) {
+                jTextField10.setText(Zdata.userDao.get(Integer.parseInt(searchId)).getName());
+            } else {
+                JOptionPane.showMessageDialog(null, "Không tồn tại reader này", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                jTextField10.setText("");
+                jTextField11.setText("");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Lỗi hãy nhập chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        
+        if (evt.getClickCount() == 2) {
+            int i = jTable1.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            if ("true".equals(String.valueOf(jTable1.getValueAt(i, 4)))) {
+                Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
+                model.addRow(rowData);
+            } else {
+                JOptionPane.showMessageDialog(null, "Sách đã có người mượn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -631,6 +688,14 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int rowCount = model.getRowCount();
+        int columnCount = model.getColumnCount();
+        for(int i = 0; i < rowCount; i++){
+            for(int j = 0; j < columnCount; j++){
+                
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -668,6 +733,22 @@ public final class BorrowBook extends javax.swing.JFrame {
         new ReturnBook().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel16MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        // TODO add your handling code here:
+        new AccountInfo().setVisible(true);
+    }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = jTable2.getSelectedRow();
+            if (row != -1) {
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                model.removeRow(row);
+            }
+        }
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments

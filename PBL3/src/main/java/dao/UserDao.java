@@ -13,6 +13,8 @@ public interface UserDao {
 	Integer maxId();
 	
 	User get(Integer id);
+        
+        List<User> getUserId(Integer id);
 	
 	void delete(Integer integer);
 	

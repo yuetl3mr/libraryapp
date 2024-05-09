@@ -14,6 +14,12 @@ public interface BookDao {
 	List<Book> getAllFindName(String string);
 	
 	List<Book> getAllFindCategory(String string);
+        
+        List<Book> getAllFindAuthor(String string);
+        
+        List<Book> getAllFindCategoryId(Integer integer);
+        
+        List<Book> getBookId(Integer integer);
 	
 	void save(Book book);
 	
