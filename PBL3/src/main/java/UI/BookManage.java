@@ -139,6 +139,7 @@ public final class BookManage extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1500, 750));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -226,7 +227,7 @@ public final class BookManage extends javax.swing.JFrame {
         jLabel12.setText("Dashboard");
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
-        jPanel11.setBackground(new java.awt.Color(161, 195, 152));
+        jPanel11.setBackground(new java.awt.Color(198, 235, 197));
         jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel11MouseClicked(evt);
@@ -243,7 +244,7 @@ public final class BookManage extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         jLabel8.setText("Features");
 
-        jPanel13.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel13.setBackground(new java.awt.Color(161, 195, 152));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -555,8 +556,21 @@ public final class BookManage extends javax.swing.JFrame {
             new String [] {
                 "CategoryID", "Category"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         jLabel26.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel26.setText("Book Categories");

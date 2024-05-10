@@ -48,8 +48,8 @@ public class Ex {
         User user = Zdata.userDao.get(UserId);
         
         String email = user.getPhoneNumber();
-        //String toEmail = email;
-        String toEmail = "huuquyle9@gmail.com";
+        String toEmail = email;
+        //String toEmail = "yuetl3mr@gmail.com";
         String host = "smtp.gmail.com";
         String port = "587";
         Properties props = new Properties();
@@ -59,7 +59,7 @@ public class Ex {
         props.put("mail.smtp.port", port);
         
         Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthenticatsion() {
+            protected PasswordAuthentication getPasswordAuthentication() { 
                 return new PasswordAuthentication(myEmail, password);
             }
         });
@@ -68,29 +68,66 @@ public class Ex {
             message.setFrom(new InternetAddress(myEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject("Book borrowing eReceipt - LMS");
-            String emailContent = "      Book borrowing eReceipt\n" 
-                    + "----------------------------"
-                    + "\n__ReaderInfor__"
-                    + "\nReaderID :" + UserId
-                    + "\nName : " + user.getName() 
-                    + "\n----------------------------"
-                    + "\n___BookList__";
-            
-            //id sach, teen sach , tac gia
+
+            String emailContent = "Book Borrowing eReceipt\n"
+                    + "-------------------------------------------------------"
+                    + "\nReader Information"
+                    + "\nReader ID: " + UserId
+                    + "\nName: " + user.getName()
+                    + "\n-------------------------------------------------------"
+                    + "\nBook List"
+                    + "\n-------------------------------------------------------\n";
+
             for (int i = 0; i < rowCount; i++) {
-                Integer id = (Integer)jTable.getValueAt(i, 0);
-                String name = (String)jTable.getValueAt(i, 1);
-                emailContent += "\n" + String.valueOf(i) + "> " + id + " - " + name;
+                Integer id = (Integer) jTable.getValueAt(i, 0);
+                String name = (String) jTable.getValueAt(i, 1);
+                emailContent += String.format("%-3s %-30s %-50s\n", id, name, ""); // Sử dụng định dạng để căn chỉnh thông tin
             }
-            emailContent += "\n----------------------------"
-                        + "\nBorrow Time :" + LocalDateTime.now() 
-                        + "\nThanks you !!";
-                    
+
+            emailContent += "-------------------------------------------------------"
+                    + "\nBorrowing Time: " + LocalDateTime.now()
+                    + "\nThank you!";
+
             message.setText(emailContent);
             Transport.send(message);
             System.out.println("Email sent successfully!");
         } catch (MessagingException e) {
-            e.printStackTrace();
+        }
+    }
+    
+        public static void sendReportEmail() {
+        String myEmail = "yueeeee404@gmail.com";
+        String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach        
+        //String email = user.getPhoneNumber();
+        //String toEmail = email;
+        String toEmail = "yuetl3mr@gmail.com";
+        String host = "smtp.gmail.com";
+        String port = "587";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() { // Sửa tên phương thức ở đây
+                return new PasswordAuthentication(myEmail, password);
+            }
+        });
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(myEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Libray eReport - LMS");
+
+            String emailContent = "Library Report\n" 
+                    + "Time : " + LocalDateTime.now() + "\n"
+                    + "-------------------------------------------------------";
+                    //add them vao tu statistical
+            message.setText(emailContent);
+            Transport.send(message);
+            System.out.println("Email sent successfully!");
+        } catch (MessagingException e) {
         }
     }
 
