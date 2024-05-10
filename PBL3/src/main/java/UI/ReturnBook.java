@@ -613,9 +613,11 @@ public final class ReturnBook extends javax.swing.JFrame {
             Zdata.loanDao.update(loan.getLoanId(), "tra sach", false);
             //Zdata.returnDao.save(new Return(maxIdReturn + 1, bookId, bookId, bookId, LocalDateTime.MIN));
             // sửa file comment lại là xong
+            Zdata.returnDao.save(new Return(loan.getLoanId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now()));
             Zdata.bookDao.setTrue(bookId);
         }
         model.setRowCount(0);
+        
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
