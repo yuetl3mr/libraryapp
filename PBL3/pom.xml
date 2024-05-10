@@ -27,6 +27,8 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>5.6.15.Final</version>
 		</dependency>
+                
+                
     <dependency>
       <groupId>org.jfree</groupId>
       <artifactId>jfreechart</artifactId>
@@ -44,5 +46,7 @@
       <artifactId>javax.mail</artifactId>
       <version>1.6.2</version>
     </dependency>
+    
+    
   </dependencies>
 </project>

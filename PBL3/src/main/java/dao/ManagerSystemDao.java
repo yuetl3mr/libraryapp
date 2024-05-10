@@ -16,7 +16,7 @@ public interface ManagerSystemDao {
 	void delete(Integer integer);
 	
 	// chi co chuc nang doi mat khau
-	void update(Integer userId, String userName, String password);
+	void update(Integer userId, String password);
 	
 	// sử dụng cho function
 	boolean userNameIsEmpty(String userName);

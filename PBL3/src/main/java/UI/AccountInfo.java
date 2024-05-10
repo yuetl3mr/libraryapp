@@ -4,6 +4,11 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
+import persistence.ManagerSystem;
+import persistence.User;
+import utils.Zdata;
+
 /**
  *
  * @author yuetl
@@ -15,8 +20,18 @@ public class AccountInfo extends javax.swing.JFrame {
      */
     public AccountInfo() {
         initComponents();
+        showPieChart();
     }
 
+    public void showPieChart(){
+        User user = Zdata.userDao.get(LoginPage.staffId);
+        ManagerSystem managerSystem = Zdata.managerSystemDao.getById(LoginPage.staffId);
+        jTextField1.setText(managerSystem.getUserName());
+        jTextField2.setText(user.getUserId() + "");
+        jTextField3.setText(user.getName());
+        jTextField4.setText(user.getPhoneNumber());
+        jTextArea2.setText(user.getAddress());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -306,6 +321,20 @@ public class AccountInfo extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        String oldPass = jPasswordField1.getText();
+        String newPass = jPasswordField2.getText();
+        String newPassConfirm = jPasswordField3.getText();
+        ManagerSystem managerSystem = Zdata.managerSystemDao.getById(LoginPage.staffId);
+        if(oldPass.equals(managerSystem.getPassword())){
+            if(newPass.equals(newPassConfirm)){
+                Zdata.managerSystemDao.update(LoginPage.staffId, newPass);
+                JOptionPane.showMessageDialog(null, "Đổi thành công", "đổi mật khẩu", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Nhập lại mật khẩu sai", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "sai mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

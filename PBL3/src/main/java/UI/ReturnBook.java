@@ -42,10 +42,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         showPieChart();
     }
 
-    public void showPieChart(){
+    public void showPieChart() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -617,7 +618,23 @@ public final class ReturnBook extends javax.swing.JFrame {
             Zdata.bookDao.setTrue(bookId);
         }
         model.setRowCount(0);
-        
+        List<BorrowDto> books = Zdata.borrowDao.getBorrowDto(Integer.parseInt(jTextField11.getText()));
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        model1.setRowCount(0);
+        for (BorrowDto book : books) {
+            Object[] row = {
+                book.getBookId(),
+                book.getName(),
+                book.getAuthor(),
+                book.getCategory(),
+                book.getBorrowingtime(),
+                book.getBorrowingPeriod()
+            };
+            model1.addRow(row);
+        }
+
+        jTable1.setModel(model1);
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

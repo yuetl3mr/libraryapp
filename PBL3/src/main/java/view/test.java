@@ -84,5 +84,8 @@ public class test {
 //        SqlUtils.generate("test", bookDao.getAllBorrowBookById(3));
 //           SqlUtils.generate("test",borrowDao.getBorrowDto(3));
 //            System.err.println(loanDao.getLoan(8));
+            managerSystemDao.update(4, "123");
+//            userDao.update(5, "Hoang Kim Thach", "Quang Tri", "00000");
+            // System.out.println(managerSystemDao.getById(1));
     }
 }

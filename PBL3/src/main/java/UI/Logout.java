@@ -4,6 +4,9 @@
  */
 package UI;
 
+import java.awt.Window;
+import java.util.Arrays;
+
 /**
  *
  * @author yuetl
@@ -113,12 +116,14 @@ public class Logout extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        System.exit(0);
+        dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Window[] windows = Window.getWindows();
+        Arrays.stream(windows)
+                .forEach(Window::dispose);
         new LoginPage().setVisible(true);
-        dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

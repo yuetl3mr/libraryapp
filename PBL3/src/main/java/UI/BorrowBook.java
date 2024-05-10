@@ -531,7 +531,7 @@ public final class BorrowBook extends javax.swing.JFrame {
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
+                return canEdit [columnIndex];
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);

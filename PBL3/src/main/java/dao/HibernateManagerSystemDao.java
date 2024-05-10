@@ -75,7 +75,7 @@ public class HibernateManagerSystemDao extends AbstractHibernateDao implements M
 	}
 	
 	@Override
-	public void update(Integer userId, String userName, String password) {
+	public void update(Integer userId, String password) {
 		Session session = openSession();
 		Transaction transaction = openSession().beginTransaction();
 		try {

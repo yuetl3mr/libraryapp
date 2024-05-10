@@ -9,7 +9,7 @@ public class SendEmail {
     public static void main(String[] args) {
         String myEmail = "yueeeee404@gmail.com";
         String password = "kbwd dhai ldhc lsyp"; // Mật khẩu email của bạn
-        String toEmail = "yue.moee@gmail.com";
+        String toEmail = "yue.moee@gmail.com";// sua cai nay thanh thang muon sach
         String host = "smtp.gmail.com";
         String port = "587"; 
         Properties props = new Properties();
