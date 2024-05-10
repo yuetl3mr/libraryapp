@@ -3,11 +3,19 @@ package utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import persistence.*;
 
 public class Ex {
 
+    public static void test(){
+        List<Reader> readers = Zdata.readerDao.getAll();
+        List<Book> books = Zdata.bookDao.getAll();
+        List<Loan> loans = Zdata.loanDao.getAll();
+    }
+    
     // xử lí tài khoản trùng nhau
     public static boolean userNameTrue(String string) {
         if (string.length() < 6) {
