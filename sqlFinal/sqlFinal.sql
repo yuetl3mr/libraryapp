@@ -1,5 +1,5 @@
-CREATE SCHEMA libraryupdatelate;
-USE libraryupdatelate;
+CREATE SCHEMA lbr;
+USE lbr;
 
 -- 1
 CREATE TABLE `USER` (
@@ -7,6 +7,7 @@ CREATE TABLE `USER` (
     `name` VARCHAR(255),
     address VARCHAR(255),
     phoneNumber VARCHAR(255),
+    gender boolean,
     CONSTRAINT PK_User PRIMARY KEY (userID)
 );
 
@@ -124,8 +125,8 @@ CREATE TABLE ISSUE(
     CONSTRAINT FK_ISSUE_READER FOREIGN KEY (userId) REFERENCES READER(userId)
 );
 
-INSERT INTO category(categoryId, `name`)
-VALUES (1, 'leonado devenci')
+-- INSERT INTO category(categoryId, `name`)
+-- VALUES (1, 'leonado devenci')
 
 
 
