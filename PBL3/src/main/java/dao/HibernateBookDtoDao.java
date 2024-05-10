@@ -15,22 +15,40 @@ import org.hibernate.type.StringType;
  *
  * @author 84775
  */
-public class HibernateBookDtoDao extends AbstractHibernateDao implements BookDtoDao{
-    private static final String getAll = "SELECT book.categoryId AS categoryId,\n" +
-                                         "	   category.name AS `name`,\n" +
-                                         "	   COUNT(*) AS count\n" +
-                                         "FROM book\n" +
-                                         "JOIN category\n" +
-                                         "ON category.categoryId = book.categoryId\n" +
-                                         "GROUP BY categoryId";
+public class HibernateBookDtoDao extends AbstractHibernateDao implements BookDtoDao {
+
+    private static final String getAll = "SELECT book.categoryId AS categoryId,\n"
+            + "	   category.name AS `name`,\n"
+            + "	   COUNT(*) AS count\n"
+            + "FROM book\n"
+            + "JOIN category\n"
+            + "ON category.categoryId = book.categoryId\n"
+            + "GROUP BY categoryId";
+
+    private static final String getAllBorrow = "SELECT book.categoryId AS categoryId,\n"
+            + "	   category.name AS `name`,\n"
+            + "	   COUNT(*) AS count\n"
+            + "FROM book\n"
+            + "JOIN category\n"
+            + "ON category.categoryId = book.categoryId\n"
+            + "JOIN borrow\n"
+            + "ON borrow.bookId = book.bookId\n"
+            + "GROUP BY categoryId";
 
     public List<BookDto> getAll() {
-        return (List<BookDto>)openSession().createNativeQuery(getAll)
-                .addScalar("categoryId",IntegerType.INSTANCE )
+        return (List<BookDto>) openSession().createNativeQuery(getAll)
+                .addScalar("categoryId", IntegerType.INSTANCE)
                 .addScalar("name", StringType.INSTANCE)
-                .addScalar("count",IntegerType.INSTANCE )
+                .addScalar("count", IntegerType.INSTANCE)
                 .setResultTransformer(Transformers.aliasToBean(BookDto.class)).getResultList();
     }
-    
-    
+
+    public List<BookDto> getAllBorrow() {
+        return (List<BookDto>) openSession().createNativeQuery(getAllBorrow)
+                .addScalar("categoryId", IntegerType.INSTANCE)
+                .addScalar("name", StringType.INSTANCE)
+                .addScalar("count", IntegerType.INSTANCE)
+                .setResultTransformer(Transformers.aliasToBean(BookDto.class)).getResultList();
+    }
+
 }

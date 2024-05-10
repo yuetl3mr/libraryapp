@@ -13,4 +13,6 @@ import dto.BookDto;
  */
 public interface BookDtoDao {
     List<BookDto> getAll();
+    
+    List<BookDto> getAllBorrow();
 }
