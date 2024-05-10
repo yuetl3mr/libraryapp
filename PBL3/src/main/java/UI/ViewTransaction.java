@@ -4,6 +4,8 @@
  */
 package UI;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yuetl
@@ -15,6 +17,13 @@ public class ViewTransaction extends javax.swing.JFrame {
      */
     public ViewTransaction() {
         initComponents();
+        showPieChart();
+    }
+    
+    public void showPieChart(){
+        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+        model.setRowCount(0);
+        
     }
 
     /**

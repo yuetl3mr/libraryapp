@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.jfree.chart.ChartFactory;
@@ -34,6 +35,8 @@ public final class BorrowBook extends javax.swing.JFrame {
     /**
      * Creates new form MainUI
      */
+    
+    
     public BorrowBook() {
         initComponents();
         showPieChart();
@@ -421,6 +424,12 @@ public final class BorrowBook extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel7.setText("Name");
         jPanel25.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
+        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField11ActionPerformed(evt);
+            }
+        });
         jPanel25.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 80, -1));
 
         jButton1.setBackground(new java.awt.Color(250, 112, 112));
@@ -485,7 +494,7 @@ public final class BorrowBook extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Print Receipt");
+        jButton2.setText("Send Receipt");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -660,6 +669,7 @@ public final class BorrowBook extends javax.swing.JFrame {
         if (Ex.isNumberic(searchId)) {
             if (Zdata.readerDao.get(Integer.parseInt(searchId)) != null) {
                 jTextField10.setText(Zdata.userDao.get(Integer.parseInt(searchId)).getName());
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Không tồn tại reader này", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 jTextField10.setText("");
@@ -686,7 +696,7 @@ public final class BorrowBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+         Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -770,6 +780,10 @@ public final class BorrowBook extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField11ActionPerformed
 
     /**
      * @param args the command line arguments

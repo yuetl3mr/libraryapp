@@ -1,21 +1,105 @@
 package utils;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import persistence.*;
+import UI.BorrowBook;
+import java.time.LocalDateTime;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Ex {
 
-    public static void test(){
+    public static void exportReaders() {
+        List<Reader> readers = Zdata.readerDao.getAll();
+        String filePath = "C:/datalms/Readers.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (Reader reader : readers) {
+                // Ghi thông tin của mỗi đối tượng reader vào file
+                writer.write(reader.toString());
+                writer.newLine(); // Xuống dòng sau mỗi đối tượng
+            }
+            System.out.println("Dữ liệu readers đã được ghi vào file: " + filePath);
+        } catch (IOException e) {
+        }
+    }
+
+    public static void sendReceiptEmail(Integer UserId, JTable jTable) {
+        DefaultTableModel model = (DefaultTableModel)jTable.getModel();
+        int rowCount = model.getRowCount();
+        String myEmail = "yueeeee404@gmail.com";
+        String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
+        User user = Zdata.userDao.get(UserId);
+        
+        String email = user.getPhoneNumber();
+        //String toEmail = email;
+        String toEmail = "huuquyle9@gmail.com";
+        String host = "smtp.gmail.com";
+        String port = "587";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthenticatsion() {
+                return new PasswordAuthentication(myEmail, password);
+            }
+        });
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(myEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Book borrowing eReceipt - LMS");
+            String emailContent = "      Book borrowing eReceipt\n" 
+                    + "----------------------------"
+                    + "\n__ReaderInfor__"
+                    + "\nReaderID :" + UserId
+                    + "\nName : " + user.getName() 
+                    + "\n----------------------------"
+                    + "\n___BookList__";
+            
+            //id sach, teen sach , tac gia
+            for (int i = 0; i < rowCount; i++) {
+                Integer id = (Integer)jTable.getValueAt(i, 0);
+                String name = (String)jTable.getValueAt(i, 1);
+                emailContent += "\n" + String.valueOf(i) + "> " + id + " - " + name;
+            }
+            emailContent += "\n----------------------------"
+                        + "\nBorrow Time :" + LocalDateTime.now() 
+                        + "\nThanks you !!";
+                    
+            message.setText(emailContent);
+            Transport.send(message);
+            System.out.println("Email sent successfully!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void test() {
         List<Reader> readers = Zdata.readerDao.getAll();
         List<Book> books = Zdata.bookDao.getAll();
         List<Loan> loans = Zdata.loanDao.getAll();
     }
-    
+
     // xử lí tài khoản trùng nhau
     public static boolean userNameTrue(String string) {
         if (string.length() < 6) {
