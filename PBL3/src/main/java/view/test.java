@@ -26,37 +26,40 @@ import dao.BookDtoDao;
 import dao.HibernateBookDtoDao;
 import java.time.LocalDate;
 import utils.SqlUtils;
+import utils.Zdata;
 
 public class test {
-	private static UserDao userDao;
-	private static ManagerSystemDao managerSystemDao;
-	private static CategoryDao categoryDao;
-	private static BookDao bookDao;
-	private static ReaderDao readerDao;
-	private static StaffDao staffDao;
-	private static ReviewDao reviewDao;
-	private static LoanDao loanDao;
-	private static BorrowDao borrowDao;
-	private static ReturnDao returnDao;
-	private static IssueDao issueDao;
-        private static BookDtoDao bookDtoDao;
-	static {
-		userDao = new HibernateUserDao();
-		managerSystemDao = new HibernateManagerSystemDao();
-		categoryDao = new HibernateCategoryDao();
-		bookDao = new HibernateBookDao();
-		readerDao = new HibernateReaderDao();
-		staffDao = new HibernateStaffDao();
-		reviewDao = new HibernateReviewDao();
-		loanDao = new HibernateLoanDao();
-		borrowDao = new HibernateBorrowDao();
-		returnDao = new HibernateReturnDao();
-		issueDao = new HibernateIssueDao();
-                bookDtoDao = new HibernateBookDtoDao();
-	}
 
-	public static void main(String[] args) {
-		SqlUtils.generate("test", userDao.getAll());
+    private static UserDao userDao;
+    private static ManagerSystemDao managerSystemDao;
+    private static CategoryDao categoryDao;
+    private static BookDao bookDao;
+    private static ReaderDao readerDao;
+    private static StaffDao staffDao;
+    private static ReviewDao reviewDao;
+    private static LoanDao loanDao;
+    private static BorrowDao borrowDao;
+    private static ReturnDao returnDao;
+    private static IssueDao issueDao;
+    private static BookDtoDao bookDtoDao;
+
+    static {
+        userDao = new HibernateUserDao();
+        managerSystemDao = new HibernateManagerSystemDao();
+        categoryDao = new HibernateCategoryDao();
+        bookDao = new HibernateBookDao();
+        readerDao = new HibernateReaderDao();
+        staffDao = new HibernateStaffDao();
+        reviewDao = new HibernateReviewDao();
+        loanDao = new HibernateLoanDao();
+        borrowDao = new HibernateBorrowDao();
+        returnDao = new HibernateReturnDao();
+        issueDao = new HibernateIssueDao();
+        bookDtoDao = new HibernateBookDtoDao();
+    }
+
+    public static void main(String[] args) {
+//		SqlUtils.generate("test", userDao.getAll());
 //		SqlUtils.generate("test", managerSystemDao.getAll());
 //		SqlUtils.generate("test", categoryDao.getAll());
 //		SqlUtils.generate("test", bookDao.getAll());
@@ -74,7 +77,12 @@ public class test {
 //		System.out.println(managerSystemDao.userNameIsEmpty("lehuuquy"));
 //		System.out.println(managerSystemDao.get("admin", "adminpass"));
 //              System.out.println(bookDao.totalBook());
-                //bookDao.saveAmount(Integer.BYTES, string, string1, LocalDate.MIN, true, Integer.BYTES);
+        //bookDao.saveAmount(Integer.BYTES, string, string1, LocalDate.MIN, true, Integer.BYTES);
 //                SqlUtils.generate("test", bookDtoDao.getAll());
-	}
+
+//                System.out.println(Zdata.loanDao.maxId());
+//        SqlUtils.generate("test", bookDao.getAllBorrowBookById(3));
+//           SqlUtils.generate("test",borrowDao.getBorrowDto(3));
+//            System.err.println(loanDao.getLoan(8));
+    }
 }

@@ -13,5 +13,9 @@ public interface LoanDao {
 	
 	void delete(Integer integer);
         
+        void update(Integer loanId, String note, boolean status);
+        
         Integer maxId();
+        
+        Loan getLoan(Integer bookId);
 }

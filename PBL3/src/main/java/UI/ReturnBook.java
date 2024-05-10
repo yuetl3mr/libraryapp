@@ -4,6 +4,7 @@
  */
 package UI;
 
+import dto.BorrowDto;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import org.jfree.chart.ChartFactory;
@@ -15,9 +16,17 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utils.Zdata;
 import persistence.User;
+import persistence.Book;
+import dto.BorrowDto;
+import java.time.LocalDateTime;
+import persistence.Borrow;
+import persistence.Loan;
+import persistence.Return;
+import utils.Ex;
 
 /**
  *
@@ -30,8 +39,13 @@ public final class ReturnBook extends javax.swing.JFrame {
      */
     public ReturnBook() {
         initComponents();
+        showPieChart();
     }
 
+    public void showPieChart(){
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -557,25 +571,28 @@ public final class ReturnBook extends javax.swing.JFrame {
         String readerId = jTextField11.getText();
         List<User> users = Zdata.userDao.getAllReader();
         for (User user : users) {
-            if (user.getUserId() == Integer.parseInt(readerId)) {
-                jTextField10.setText(user.getName());
-                String[] columnNames = {"BookId", "Name", "Author", "category", "Borrowing time", "Borrowing period"};
-                
-                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-//                for (Book book : books) {
-//                    Object[] row = {
-//                        book.getBookId(),
-//                        book.getName(),
-//                        book.getAuthor(),
-//                        book.getCategoryId(),
-//                        book.getPublication(),
-//                        ""
-//                    };
-//                    model.addRow(row);
-//                }
+            if (Ex.isNumberic(readerId)) {
+                if (user.getUserId() == Integer.parseInt(readerId)) {
+                    jTextField10.setText(user.getName());
+                    List<BorrowDto> books = Zdata.borrowDao.getBorrowDto(Integer.parseInt(readerId));
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);
+                    for (BorrowDto book : books) {
+                        Object[] row = {
+                            book.getBookId(),
+                            book.getName(),
+                            book.getAuthor(),
+                            book.getCategory(),
+                            book.getBorrowingtime(),
+                            book.getBorrowingPeriod()
+                        };
+                        model.addRow(row);
+                    }
 
-                jTable1.setModel(model);
-                break;
+                    jTable1.setModel(model);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "hãy nhập số Reader ID!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -586,10 +603,29 @@ public final class ReturnBook extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            Integer bookId = (Integer) jTable2.getValueAt(i, 0);
+            Loan loan = Zdata.loanDao.getLoan(bookId);
+            Zdata.loanDao.update(loan.getLoanId(), "tra sach", false);
+            //Zdata.returnDao.save(new Return(maxIdReturn + 1, bookId, bookId, bookId, LocalDateTime.MIN));
+            // sửa file comment lại là xong
+            Zdata.bookDao.setTrue(bookId);
+        }
+        model.setRowCount(0);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int i = jTable1.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
+            model.addRow(rowData);
+
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked

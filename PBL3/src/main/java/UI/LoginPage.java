@@ -14,6 +14,9 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
+    
+    public static Integer staffId = 0;
+    
     public LoginPage() {
         initComponents();
         showPieChart();
@@ -256,6 +259,7 @@ public class LoginPage extends javax.swing.JFrame {
         String userName = txtusername.getText();
         String password = txtpassword.getText();
         if(Zdata.managerSystemDao.get(userName, password) != null){
+            staffId = Zdata.managerSystemDao.get(userName, password).getUserId();
             new MainUI().setVisible(true);
             dispose();
         }else {

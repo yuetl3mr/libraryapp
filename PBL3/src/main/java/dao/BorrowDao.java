@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import persistence.Borrow;
+import dto.BorrowDto;
 
 public interface BorrowDao {
 
@@ -13,4 +14,6 @@ public interface BorrowDao {
 	Borrow get(Integer integer);
 	
 	void delete(Integer integer);
+        
+        List<BorrowDto> getBorrowDto(Integer UserId);
 }

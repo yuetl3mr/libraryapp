@@ -6,6 +6,7 @@ package UI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +20,8 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import persistence.Book;
+import persistence.Borrow;
+import persistence.Loan;
 import utils.Ex;
 import utils.Zdata;
 
@@ -690,12 +693,30 @@ public final class BorrowBook extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();
-        int columnCount = model.getColumnCount();
-        for(int i = 0; i < rowCount; i++){
-            for(int j = 0; j < columnCount; j++){
-                
-            }
+        for (int i = 0; i < rowCount; i++) {
+            Integer bookId = (Integer) jTable2.getValueAt(i, 0);
+            Zdata.loanDao.save(new Loan(Zdata.loanDao.maxId() + 1, "muon sach", true));
+            Zdata.borrowDao.save(new Borrow(Zdata.loanDao.maxId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now(), LocalDateTime.now().plusDays(90)));
+            Zdata.bookDao.setFalse(bookId);
         }
+        model.setRowCount(0);
+        
+        List<Book> books = Zdata.bookDao.getAll();
+        
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        model1.setRowCount(0);
+        for (Book book : books) {
+            Object[] row = {
+                book.getBookId(),
+                book.getName(),
+                book.getAuthor(),
+                book.getCategoryId(),
+                book.isStatus()
+            };
+            model1.addRow(row);
+        }
+
+        jTable1.setModel(model1);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

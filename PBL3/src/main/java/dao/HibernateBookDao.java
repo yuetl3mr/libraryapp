@@ -30,6 +30,13 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 
     private static final String totalBook = "SELECT count(*) FROM book";
     private static final String getMaxId = "SELECT MAX(bookId) FROM book";
+    private static final String getAllBorrowById = "SELECT book.*\n"
+            + "FROM loan\n"
+            + "JOIN borrow\n"
+            + "ON loan.loanId = borrow.loanId\n"
+            + "JOIN book\n"
+            + "on book.bookId = borrow.bookId\n"
+            + "WHERE borrow.userId = :pId and loan.`status` = 1";
 
     @Override
     public List<Book> getAllFindName(String string) {
@@ -49,12 +56,12 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
     public List<Book> getAllFindAuthor(String string) {
         return openSession().createNativeQuery(findAuthor, Book.class).setParameter("pAuthor", "%" + string + "%").getResultList();
     }
-    
-    public List<Book> getAllFindCategoryId(Integer integer){
+
+    public List<Book> getAllFindCategoryId(Integer integer) {
         return openSession().createNativeQuery(findCategoryId, Book.class).setParameter("pCategoryId", integer).getResultList();
     }
-    
-    public List<Book> getBookId(Integer integer){
+
+    public List<Book> getBookId(Integer integer) {
         List<Book> books = openSession().createNativeQuery(get, Book.class).setParameter("pId", integer).getResultList();
         return books;
     }
@@ -137,6 +144,38 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
     @Override
     public Integer maxId() {
         return (Integer) openSession().createNativeQuery(getMaxId).getResultList().get(0);
+    }
+
+    public void setFalse(Integer BookId) {
+        Session session = openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Book book = get(BookId);
+            book.setStatus(false);
+            session.update(book);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+    
+    public void setTrue(Integer BookId) {
+        Session session = openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Book book = get(BookId);
+            book.setStatus(true);
+            session.update(book);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public List<Book> getAllBorrowBookById(Integer userId) {
+        return openSession().createNativeQuery(getAllBorrowById, Book.class).setParameter("pId", userId).getResultList();
     }
 
 }

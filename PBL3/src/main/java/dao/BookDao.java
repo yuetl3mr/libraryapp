@@ -34,4 +34,10 @@ public interface BookDao {
 	List<Book> getAllFindNameAndCategory(String name, String category);
         
         Integer totalBook();
+        
+        void setFalse(Integer BookId);
+        
+        void setTrue(Integer BookId);
+        
+        List<Book> getAllBorrowBookById(Integer UserId);
 }
