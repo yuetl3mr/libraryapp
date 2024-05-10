@@ -5,6 +5,10 @@
 package UI;
 
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import persistence.*;
+import utils.Zdata;
 
 /**
  *
@@ -17,6 +21,35 @@ public class ViewTransaction extends javax.swing.JFrame {
      */
     public ViewTransaction() {
         initComponents();
+        showPieChart();
+    }
+    
+    public void showPieChart(){
+        
+        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+        model.setRowCount(0);
+        List<Return> returns = Zdata.returnDao.getAll();
+        List<Borrow> borrows = Zdata.borrowDao.getAll();
+        for (Return returnn : returns) {
+            Object[] row = {
+                returnn.getLoanId(),
+                returnn.getUserId(),
+                returnn.getBookId(),
+                returnn.getReturnTime(),
+                "---"
+            };
+            model.addRow(row);
+        }
+        for (Borrow borrow : borrows) {
+            Object[] row = {
+                borrow.getLoanId(),
+                borrow.getUserId(),
+                borrow.getBookId(),
+                borrow.getReleaseTime(),
+                borrow.getDueTime()
+            };
+            model.addRow(row);
+        }
     }
 
     /**
