@@ -458,6 +458,11 @@ public final class ReturnBook extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jPanel25.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 170, 270));
@@ -713,6 +718,17 @@ public final class ReturnBook extends javax.swing.JFrame {
        new Statistical().setVisible(true);
        dispose();
     }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = jTable2.getSelectedRow();
+            if (row != -1) {
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                model.removeRow(row);
+            }
+        }
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments
