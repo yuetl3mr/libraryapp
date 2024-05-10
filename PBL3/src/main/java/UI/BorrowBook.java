@@ -494,7 +494,7 @@ public final class BorrowBook extends javax.swing.JFrame {
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return false;
             }
         });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
