@@ -7,6 +7,7 @@ package UI;
 import dto.BookDto;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
@@ -21,6 +22,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import persistence.*;
 import utils.Zdata;
+import dto.BorrowDto;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 /**
  *
@@ -76,9 +80,7 @@ public final class Statistical extends javax.swing.JFrame {
         }
         jTextField2.setText(categoryMax);
         jTextField7.setText(categoryMin);
-        jTextField6.setText("conan");
-        jTextField8.setText("history");
-        
+
         List<Borrow> borrows = Zdata.borrowDao.getAll();
         List<Return> returns = Zdata.returnDao.getAll();
         Integer countTransaction = 0;
@@ -101,35 +103,54 @@ public final class Statistical extends javax.swing.JFrame {
     }
     
     public void showLineChart(){
-        //create dataset for the graph
+        List<Borrow> borrows = Zdata.borrowDao.getAll();
+        int[] booksBorrowedPerMonth = new int[12];
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
-        // -> add số lượng giao dịch mượn trả sách trong 12 tháng qua
+//        dataset.setValue(200, "Amount", "january");
+//        dataset.setValue(150, "Amount", "february");
+//        dataset.setValue(18, "Amount", "march");
+//        dataset.setValue(100, "Amount", "april");
+//        dataset.setValue(80, "Amount", "may");
+//        dataset.setValue(250, "Amount", "june");
         
-        //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("contribution","monthly","amount", 
-                dataset, PlotOrientation.VERTICAL, false,true,false);
         
-        //create plot object
-         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
-       // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
+        for (Borrow borrow : borrows) {
+            LocalDateTime borrowingTime = borrow.getReleaseTime();
+            int month = borrowingTime.getMonthValue(); // Lấy tháng mượn sách
+            booksBorrowedPerMonth[month - 1]++; // Tăng số lượng sách mượn trong tháng tương ứng
+        }
+        
+         for (int i = 0; i < booksBorrowedPerMonth.length; i++) {
+            dataset.setValue(booksBorrowedPerMonth[i], "Books Borrowed", Month.of(i + 1).toString());
+        }
+         
+         JFreeChart linechart = ChartFactory.createLineChart("Books Borrowed Monthly", "Month", "Number of Books Borrowed", 
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+        
+        CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
         lineCategoryPlot.setBackgroundPaint(Color.white);
         
-        //create render object to change the moficy the line properties like color
         LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
-        Color lineChartColor = new Color(204,0,51);
+        Color lineChartColor = new Color(204, 0, 51);
         lineRenderer.setSeriesPaint(0, lineChartColor);
         
-         //create chartPanel to display chart(graph)
         ChartPanel lineChartPanel = new ChartPanel(linechart);
         panelLineChart.removeAll();
         panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
         panelLineChart.validate();
+        
+//        JFreeChart linechart = ChartFactory.createLineChart("contribution","monthly","amount", 
+//                dataset, PlotOrientation.VERTICAL, false,true,false);
+//         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
+//        lineCategoryPlot.setBackgroundPaint(Color.white);
+//        
+//        LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
+//        Color lineChartColor = new Color(204,0,51);
+//        lineRenderer.setSeriesPaint(0, lineChartColor);
+//        ChartPanel lineChartPanel = new ChartPanel(linechart);
+//        panelLineChart.removeAll();
+//        panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
+//        panelLineChart.validate();
     }
     
     public void showPieChart(){
@@ -157,8 +178,8 @@ public final class Statistical extends javax.swing.JFrame {
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
        //changing pie chart blocks colors
-       piePlot.setSectionPaint("male", new Color(255,255,102));
-        piePlot.setSectionPaint("female", new Color(102,255,102));
+       piePlot.setSectionPaint("Male", new Color(255,255,102));
+        piePlot.setSectionPaint("Female", new Color(102,255,102));
       
        
         piePlot.setBackgroundPaint(Color.white);
@@ -176,7 +197,7 @@ public final class Statistical extends javax.swing.JFrame {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for(BookDto bookDto : bookDtos){
-            dataset.setValue(bookDto.getCount(), "amount", bookDto.getName());
+            dataset.setValue(bookDto.getCount(), "Amount", bookDto.getName());
         }
 //        dataset.setValue(200, "Amount", "january");
 //        dataset.setValue(150, "Amount", "february");
@@ -185,7 +206,7 @@ public final class Statistical extends javax.swing.JFrame {
 //        dataset.setValue(80, "Amount", "may");
 //        dataset.setValue(250, "Amount", "june");
         
-        JFreeChart chart = ChartFactory.createBarChart("contribution","monthly","amount", 
+        JFreeChart chart = ChartFactory.createBarChart("Books borrowed by category","Category","Amount", 
                 dataset, PlotOrientation.VERTICAL, false,true,false);
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
@@ -254,15 +275,11 @@ public final class Statistical extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel24 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
@@ -567,9 +584,6 @@ public final class Statistical extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Category with the least books :");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("The most borrowed book :");
-
         jTextField4.setEditable(false);
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -585,27 +599,10 @@ public final class Statistical extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel24.setText("Category with the most books");
 
-        jTextField6.setEditable(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-
-        jTextField6.setEditable(false);
+        jTextField7.setEditable(false);
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
-            }
-        });
-
-        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel26.setText("The least borrowed book :");
-
-        jTextField6.setEditable(false);
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
             }
         });
 
@@ -666,15 +663,11 @@ public final class Statistical extends javax.swing.JFrame {
                                 .addGap(17, 17, 17))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel26)
                                     .addComponent(jLabel30)
                                     .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
                                         .addComponent(jLabel32)
@@ -714,14 +707,6 @@ public final class Statistical extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel26)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel32)
@@ -730,7 +715,7 @@ public final class Statistical extends javax.swing.JFrame {
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(126, 126, 126)
                 .addComponent(jButton4)
                 .addGap(36, 36, 36))
         );
@@ -848,17 +833,9 @@ public final class Statistical extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
@@ -908,7 +885,6 @@ public final class Statistical extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -922,7 +898,6 @@ public final class Statistical extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
@@ -959,9 +934,7 @@ public final class Statistical extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JPanel panelBarChart;
     private javax.swing.JPanel panelLineChart;

@@ -280,6 +280,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         jPanel16.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel18.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -323,6 +328,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         );
 
         jPanel19.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -622,7 +632,7 @@ public final class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+       new ReturnAllAlert().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -693,6 +703,16 @@ public final class ReturnBook extends javax.swing.JFrame {
         new BorrowBook().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel15MouseClicked
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        new ViewTransaction().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+       new Statistical().setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jPanel19MouseClicked
 
     /**
      * @param args the command line arguments

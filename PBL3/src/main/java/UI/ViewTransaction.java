@@ -17,13 +17,6 @@ public class ViewTransaction extends javax.swing.JFrame {
      */
     public ViewTransaction() {
         initComponents();
-        showPieChart();
-    }
-    
-    public void showPieChart(){
-        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
-        model.setRowCount(0);
-        
     }
 
     /**
@@ -562,6 +555,12 @@ public class ViewTransaction extends javax.swing.JFrame {
         jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 153), 5));
         jPanel23.setPreferredSize(new java.awt.Dimension(400, 90));
         jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jPanel23.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 302, 30));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LoanID", "UserID", "BookID", "TransactionTime" }));
@@ -647,6 +646,10 @@ public class ViewTransaction extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments

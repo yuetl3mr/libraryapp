@@ -116,6 +116,8 @@ public final class BorrowBook extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jTextField10 = new javax.swing.JTextField();
@@ -356,6 +358,18 @@ public final class BorrowBook extends javax.swing.JFrame {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
+        jPanel19.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
+        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        jLabel20.setText("Statistical");
+        jPanel19.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -376,6 +390,11 @@ public final class BorrowBook extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,6 +422,11 @@ public final class BorrowBook extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(111, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(320, 320, 320)
+                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(320, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 250, 670));
@@ -785,6 +809,11 @@ public final class BorrowBook extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField11ActionPerformed
 
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        new Statistical().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel19MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -844,6 +873,7 @@ public final class BorrowBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -865,6 +895,7 @@ public final class BorrowBook extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
