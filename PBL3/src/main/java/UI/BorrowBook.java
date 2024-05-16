@@ -130,7 +130,6 @@ public final class BorrowBook extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -515,27 +514,16 @@ public final class BorrowBook extends javax.swing.JFrame {
 
         jPanel25.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 170, 260));
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Send Receipt");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel25.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, -1, -1));
-
         jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Borrow");
+        jButton3.setText("Borrow & Send Receipt");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel25.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
+        jPanel25.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, -1, -1));
 
         jLabel24.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel24.setText("Reader");
@@ -719,12 +707,9 @@ public final class BorrowBook extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();
         for (int i = 0; i < rowCount; i++) {
@@ -858,7 +843,6 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;

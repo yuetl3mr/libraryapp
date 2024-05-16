@@ -19,7 +19,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import persistence.*;
-import UI.BorrowBook;
 import java.time.LocalDateTime;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -47,9 +46,10 @@ public class Ex {
         String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
         User user = Zdata.userDao.get(UserId);
         
-        String email = user.getPhoneNumber();
-        String toEmail = email;
-        //String toEmail = "yuetl3mr@gmail.com";
+        //String email = user.getPhoneNumber();
+        //String toEmail = email;
+        
+        String toEmail = "yuetl3mr@gmail.com";
         String host = "smtp.gmail.com";
         String port = "587";
         Properties props = new Properties();

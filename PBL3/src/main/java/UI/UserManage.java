@@ -310,6 +310,11 @@ public final class UserManage extends javax.swing.JFrame {
         jPanel16.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel18.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -1117,6 +1122,11 @@ public final class UserManage extends javax.swing.JFrame {
         new ReturnBook().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel16MouseClicked
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        new ViewTransaction().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel18MouseClicked
 
     /**
      * @param args the command line arguments

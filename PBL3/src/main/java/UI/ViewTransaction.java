@@ -248,6 +248,11 @@ public class ViewTransaction extends javax.swing.JFrame {
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel14.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel14MouseClicked(evt);
+            }
+        });
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel15.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -693,6 +698,11 @@ public class ViewTransaction extends javax.swing.JFrame {
         new Statistical().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
+        new UserManage().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel14MouseClicked
 
     /**
      * @param args the command line arguments
