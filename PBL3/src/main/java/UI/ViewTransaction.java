@@ -699,6 +699,9 @@ public class ViewTransaction extends javax.swing.JFrame {
         if (jCheckBox3.isSelected()) {
             transactions = Zdata.transactionDao.getAll();
             for (Transaction transaction : transactions) {
+                if (transaction.getDueTime() == null) {
+                    continue;
+                }
                 if (transaction.getDueTime().isBefore(LocalDateTime.now())) {
                     Object[] row = {
                         transaction.getLoanId(),
@@ -808,7 +811,6 @@ public class ViewTransaction extends javax.swing.JFrame {
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
         new AccountInfo().setVisible(true);
-        dispose();
     }//GEN-LAST:event_jPanel11MouseClicked
 
     /**
