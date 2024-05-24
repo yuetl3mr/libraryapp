@@ -1159,7 +1159,6 @@ public final class UserManage extends javax.swing.JFrame {
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
         new AccountInfo().setVisible(true);
-        dispose();
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
