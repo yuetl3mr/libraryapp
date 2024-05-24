@@ -4,11 +4,15 @@
  */
 package UI;
 
+import dto.Transaction;
+import java.time.LocalDateTime;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import persistence.*;
 import utils.Zdata;
+import utils.Ex;
 
 /**
  *
@@ -23,33 +27,23 @@ public class ViewTransaction extends javax.swing.JFrame {
         initComponents();
         showPieChart();
     }
-    
-    public void showPieChart(){
-        
-        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+
+    public void showPieChart() {
+
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        List<Return> returns = Zdata.returnDao.getAll();
-        List<Borrow> borrows = Zdata.borrowDao.getAll();
-        for (Return returnn : returns) {
+        List<Transaction> returns = Zdata.transactionDao.getAll();
+        for (Transaction returnn : returns) {
             Object[] row = {
                 returnn.getLoanId(),
                 returnn.getUserId(),
                 returnn.getBookId(),
-                returnn.getReturnTime(),
-                "---"
+                returnn.getTransactionTime(),
+                returnn.getDueTime()
             };
             model.addRow(row);
         }
-        for (Borrow borrow : borrows) {
-            Object[] row = {
-                borrow.getLoanId(),
-                borrow.getUserId(),
-                borrow.getBookId(),
-                borrow.getReleaseTime(),
-                borrow.getDueTime()
-            };
-            model.addRow(row);
-        }
+
     }
 
     /**
@@ -201,6 +195,11 @@ public class ViewTransaction extends javax.swing.JFrame {
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel11.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -417,6 +416,7 @@ public class ViewTransaction extends javax.swing.JFrame {
 
         jCheckBox2.setSelected(true);
         jCheckBox2.setText("Borrow");
+        jCheckBox2.setToolTipText("");
 
         jRadioButton1.setText("Before (dd/mm/yyyy)");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -615,6 +615,11 @@ public class ViewTransaction extends javax.swing.JFrame {
         jPanel23.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, 30));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search (1).png"))); // NOI18N
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
         jPanel23.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -688,6 +693,66 @@ public class ViewTransaction extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        if (jCheckBox3.isSelected()) {
+            transactions = Zdata.transactionDao.getAll();
+            for (Transaction transaction : transactions) {
+                if (transaction.getDueTime().isBefore(LocalDateTime.now())) {
+                    Object[] row = {
+                        transaction.getLoanId(),
+                        transaction.getUserId(),
+                        transaction.getBookId(),
+                        transaction.getTransactionTime(),
+                        transaction.getDueTime()
+                    };
+                    model.addRow(row);
+                }
+            }
+            jTable2.setModel(model);
+            return;
+        }
+
+        if (jCheckBox1.isSelected() && jCheckBox2.isSelected()) {
+            transactions = Zdata.transactionDao.getAll();
+        } else if (jCheckBox1.isSelected() && !jCheckBox2.isSelected()) {
+            transactions = Zdata.transactionDao.getAllReturn();
+        } else if (!jCheckBox1.isSelected() && jCheckBox2.isSelected()) {
+            transactions = Zdata.transactionDao.getAllBorrow();
+        }
+        Iterator<Transaction> iterator = transactions.iterator();
+
+        if (jRadioButton1.isSelected() && jTextField2.getText() != "") {
+            while (iterator.hasNext()) {
+                Transaction number = iterator.next();
+                if (number.getTransactionTime().isAfter(Ex.parseDateToLocalDateTime(jTextField2.getText()))) {
+                    iterator.remove();
+                }
+            }
+        }
+        if (jRadioButton2.isSelected() && jTextField3.getText() != "") {
+            while (iterator.hasNext()) {
+                Transaction number = iterator.next();
+                if (number.getTransactionTime().isBefore(Ex.parseDateToLocalDateTime(jTextField3.getText()))) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        for (Transaction returnn : transactions) {
+            Object[] row = {
+                returnn.getLoanId(),
+                returnn.getUserId(),
+                returnn.getBookId(),
+                returnn.getTransactionTime(),
+                returnn.getDueTime()
+            };
+            model.addRow(row);
+        }
+
+        jTable2.setModel(model);
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -703,6 +768,48 @@ public class ViewTransaction extends javax.swing.JFrame {
         new UserManage().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel14MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        if ("".equals(jTextField1.getText())) {
+            transactions = Zdata.transactionDao.getAll();
+        } else {
+            if (Ex.isNumberic(jTextField1.getText())) {
+                if (((String) jComboBox1.getSelectedItem()).equals("LoanID")) {
+                    transactions = Zdata.transactionDao.getLoanId(Integer.parseInt(jTextField1.getText()));
+                }
+                if (((String) jComboBox1.getSelectedItem()).equals("UserID")) {
+                    transactions = Zdata.transactionDao.getUserId(Integer.parseInt(jTextField1.getText()));
+                }
+                if (((String) jComboBox1.getSelectedItem()).equals("BookID")) {
+                    transactions = Zdata.transactionDao.getBookId(Integer.parseInt(jTextField1.getText()));
+                }
+            } else {
+
+            }
+        }
+        for (Transaction returnn : transactions) {
+            Object[] row = {
+                returnn.getLoanId(),
+                returnn.getUserId(),
+                returnn.getBookId(),
+                returnn.getTransactionTime(),
+                returnn.getDueTime()
+            };
+            model.addRow(row);
+        }
+
+        jTable2.setModel(model);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        // TODO add your handling code here:
+        new AccountInfo().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel11MouseClicked
 
     /**
      * @param args the command line arguments

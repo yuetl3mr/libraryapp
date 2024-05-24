@@ -24,6 +24,8 @@ import dao.StaffDao;
 import dao.UserDao;
 import dao.BookDtoDao;
 import dao.HibernateBookDtoDao;
+import dao.HibernateTransactionDao;
+import dao.TransactionDao;
 import java.time.LocalDate;
 import utils.SqlUtils;
 import utils.Zdata;
@@ -42,6 +44,7 @@ public class test {
     private static ReturnDao returnDao;
     private static IssueDao issueDao;
     private static BookDtoDao bookDtoDao;
+    private static TransactionDao transactionDao;
 
     static {
         userDao = new HibernateUserDao();
@@ -56,6 +59,7 @@ public class test {
         returnDao = new HibernateReturnDao();
         issueDao = new HibernateIssueDao();
         bookDtoDao = new HibernateBookDtoDao();
+        transactionDao = new HibernateTransactionDao();
     }
 
     public static void main(String[] args) {
@@ -84,8 +88,9 @@ public class test {
 //        SqlUtils.generate("test", bookDao.getAllBorrowBookById(3));
 //           SqlUtils.generate("test",borrowDao.getBorrowDto(3));
 //            System.err.println(loanDao.getLoan(8));
-            managerSystemDao.update(4, "123");
+//            managerSystemDao.update(4, "123");
 //            userDao.update(5, "Hoang Kim Thach", "Quang Tri", "00000");
             // System.out.println(managerSystemDao.getById(1));
+            SqlUtils.generate("abc", transactionDao.getAllReturn());
     }
 }

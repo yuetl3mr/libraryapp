@@ -19,6 +19,7 @@ import dao.HibernateReaderDao;
 import dao.HibernateReturnDao;
 import dao.HibernateReviewDao;
 import dao.HibernateStaffDao;
+import dao.HibernateTransactionDao;
 import dao.HibernateUserDao;
 import dao.IssueDao;
 import dao.LoanDao;
@@ -27,6 +28,7 @@ import dao.ReaderDao;
 import dao.ReturnDao;
 import dao.ReviewDao;
 import dao.StaffDao;
+import dao.TransactionDao;
 import dao.UserDao;
 
 /**
@@ -46,6 +48,7 @@ public class Zdata {
 	public static ReturnDao returnDao;
 	public static IssueDao issueDao;
         public static BookDtoDao bookDtoDao;
+        public static TransactionDao transactionDao;
 	static {
 		userDao = new HibernateUserDao();
 		managerSystemDao = new HibernateManagerSystemDao();
@@ -59,5 +62,6 @@ public class Zdata {
 		returnDao = new HibernateReturnDao();
 		issueDao = new HibernateIssueDao();
                 bookDtoDao = new HibernateBookDtoDao();
+                transactionDao = new HibernateTransactionDao();
 	}
 }

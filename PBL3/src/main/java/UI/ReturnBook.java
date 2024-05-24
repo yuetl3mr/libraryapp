@@ -202,6 +202,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel11.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -729,6 +734,11 @@ public final class ReturnBook extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        // TODO add your handling code here:
+        new AccountInfo().setVisible(true);
+    }//GEN-LAST:event_jPanel11MouseClicked
 
     /**
      * @param args the command line arguments

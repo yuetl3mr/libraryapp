@@ -4,6 +4,7 @@
  */
 package UI;
 
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.time.LocalDateTime;
@@ -23,6 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import utils.Ex;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -232,6 +237,11 @@ public final class UserManage extends javax.swing.JFrame {
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel11.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -358,6 +368,11 @@ public final class UserManage extends javax.swing.JFrame {
         );
 
         jPanel19.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -940,7 +955,7 @@ public final class UserManage extends javax.swing.JFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 1250, 670));
@@ -1025,6 +1040,19 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<User> list = Zdata.userDao.getAll();
+        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
+        try {
+            // Ghi đối tượng person vào file JSON
+            writer.writeValue(new File("user.json"), list);
+
+            // In ra thông báo thành công
+            System.out.println("Xuất file JSON thành công!");
+        } catch (IOException e) {
+            // Xử lý ngoại lệ nếu có
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1127,6 +1155,18 @@ public final class UserManage extends javax.swing.JFrame {
         new ViewTransaction().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        // TODO add your handling code here:
+        new AccountInfo().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        // TODO add your handling code here:
+        new Statistical().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel19MouseClicked
 
     /**
      * @param args the command line arguments

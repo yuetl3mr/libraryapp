@@ -24,6 +24,22 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Ex {
+    
+    public static LocalDateTime parseDateToLocalDateTime(String dateString) {
+        // Định dạng của chuỗi ngày tháng năm
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            // Chuyển đổi chuỗi thành LocalDate
+            LocalDate date = LocalDate.parse(dateString, dateFormatter);
+            
+            // Tạo LocalDateTime từ LocalDate, với thời gian mặc định là 00:00:00
+            return date.atStartOfDay();
+        } catch (DateTimeParseException e) {
+            System.err.println("Invalid date format: " + e.getMessage());
+            return null; // Hoặc bạn có thể ném ra một ngoại lệ tùy theo yêu cầu của bạn
+        }
+    }
 
     public static void exportReaders() {
         List<Reader> readers = Zdata.readerDao.getAll();

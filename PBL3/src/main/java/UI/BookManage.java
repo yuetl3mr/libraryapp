@@ -3,8 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UI;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +25,14 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import persistence.Book;
 import persistence.Borrow;
+import persistence.User;
 import utils.Ex;
 import utils.Zdata;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 
 /**
  *
@@ -311,6 +322,11 @@ public final class BookManage extends javax.swing.JFrame {
         jPanel16.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel18.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -940,6 +956,20 @@ public final class BookManage extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        ObjectMapper objectMapper = new ObjectMapper();
+        // Đăng ký JavaTimeModule để hỗ trợ LocalDate và LocalDateTime
+        objectMapper.registerModule(new JavaTimeModule());
+
+        List<Book> list = Zdata.bookDao.getAll();
+
+        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
+        try {
+            // Ghi đối tượng Book vào file JSON
+            writer.writeValue(new File("book.json"), list);
+            System.out.println("Xuất file JSON thành công!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1003,6 +1033,12 @@ public final class BookManage extends javax.swing.JFrame {
         new Statistical().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        // TODO add your handling code here:
+        new ViewTransaction().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel18MouseClicked
 
     /**
      * @param args the command line arguments

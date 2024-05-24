@@ -1,0 +1,78 @@
+[ {
+  "bookId" : 1,
+  "categoryId" : 1,
+  "name" : "To Kill a Mockingbird",
+  "author" : "Harper Lee",
+  "publication" : [ 1960, 7, 11 ],
+  "status" : false
+}, {
+  "bookId" : 2,
+  "categoryId" : 1,
+  "name" : "1984",
+  "author" : "George Orwell",
+  "publication" : [ 1949, 6, 8 ],
+  "status" : false
+}, {
+  "bookId" : 3,
+  "categoryId" : 2,
+  "name" : "The Elements of Style",
+  "author" : "William Strunk Jr.",
+  "publication" : [ 1918, 7, 1 ],
+  "status" : true
+}, {
+  "bookId" : 4,
+  "categoryId" : 3,
+  "name" : "Pride and Prejudice",
+  "author" : "Jane Austen",
+  "publication" : [ 1813, 1, 28 ],
+  "status" : false
+}, {
+  "bookId" : 5,
+  "categoryId" : 4,
+  "name" : "To Kill a Mockingbird",
+  "author" : "Harper Lee",
+  "publication" : [ 1960, 7, 11 ],
+  "status" : true
+}, {
+  "bookId" : 6,
+  "categoryId" : 5,
+  "name" : "One Hundred Years of Solitude",
+  "author" : "Gabriel García Márquez",
+  "publication" : [ 1967, 5, 6 ],
+  "status" : true
+}, {
+  "bookId" : 7,
+  "categoryId" : 6,
+  "name" : "The Great Gatsby",
+  "author" : "F. Scott Fitzgerald",
+  "publication" : [ 1925, 4, 10 ],
+  "status" : false
+}, {
+  "bookId" : 8,
+  "categoryId" : 7,
+  "name" : "Frankenstein",
+  "author" : "Mary Shelley",
+  "publication" : [ 1818, 2, 3 ],
+  "status" : false
+}, {
+  "bookId" : 9,
+  "categoryId" : 2,
+  "name" : "Dune",
+  "author" : "Frank Herbert",
+  "publication" : [ 1965, 5, 6 ],
+  "status" : true
+}, {
+  "bookId" : 10,
+  "categoryId" : 1,
+  "name" : "abcd",
+  "author" : "abcd",
+  "publication" : null,
+  "status" : true
+}, {
+  "bookId" : 11,
+  "categoryId" : 1,
+  "name" : "conan",
+  "author" : "conan",
+  "publication" : null,
+  "status" : false
+} ]
