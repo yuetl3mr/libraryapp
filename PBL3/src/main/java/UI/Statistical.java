@@ -861,7 +861,7 @@ public final class Statistical extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Ex.sendReceiptEmail(LoginPage.staffId, jTextField5.getText(), jTextField1.getText(), jTextField4.getText(), jTextField2.getText(), jTextField7.getText(), jTextField9.getText(), jTextField3.getText());
+        Ex.reportEmail(LoginPage.staffId, jTextField5.getText(), jTextField1.getText(), jTextField4.getText(), jTextField2.getText(), jTextField7.getText(), jTextField9.getText(), jTextField3.getText());
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked

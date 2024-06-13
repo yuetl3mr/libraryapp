@@ -60,12 +60,13 @@ public class Ex {
         User user = Zdata.userDao.get(UserId);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
         int rowCount = model.getRowCount();
-        String myEmail = user.getPhoneNumber();
+        String myEmail = "yueeeee404@gmail.com";
+        //String myEmail = user.getPhoneNumber();
         String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
 
         //String email = user.getPhoneNumber();
         //String toEmail = email;
-        String toEmail = "yuetl3mr@gmail.com";
+        String toEmail = user.getPhoneNumber();
         String host = "smtp.gmail.com";
         String port = "587";
         Properties props = new Properties();
@@ -111,9 +112,9 @@ public class Ex {
         }
     }
     
-    public static void sendReceiptEmail(Integer UserId, String row1,String row2,String row3,String row4,String row5,String row6,String row7) {
+    public static void reportEmail(Integer UserId, String row1,String row2,String row3,String row4,String row5,String row6,String row7) {
         User user = Zdata.userDao.get(UserId);
-        String myEmail = user.getPhoneNumber();
+        String myEmail = "yueeeee404@gmail.com";
         String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
         //String email = user.getPhoneNumber();
         //String toEmail = email;
