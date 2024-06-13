@@ -27,7 +27,7 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
     private static final String isEmptyEmail = "SELECT * FROM `user` Where phoneNumber = :pEmail\n";
     
 
-    public boolean isEmptyEmail(String string) {
+    public boolean isExistEmail(String string) {
         List<User> users = openSession().createNativeQuery(isEmptyEmail, User.class).setParameter("pEmail", string).getResultList();
         if (users.isEmpty()) {
             return true;

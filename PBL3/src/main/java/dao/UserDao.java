@@ -24,7 +24,7 @@ public interface UserDao {
         
         List<User> getAllFindNameReader(String Name);
         
-        boolean isEmptyEmail(String string);
+        boolean isExistEmail(String string);
 	
 	// sử dụng cho function
 	

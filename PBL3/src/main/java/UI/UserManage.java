@@ -976,7 +976,7 @@ public final class UserManage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String select = (String) jComboBox1.getSelectedItem();
-        String[] columnNames = {"User Id", "Name", "Addr", "PhoneNum"};
+        String[] columnNames = {"User Id", "Name", "Addr", "Email"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         List<User> users = new ArrayList<>();
         if ("".equals(jTextField1.getText())) {
@@ -1025,13 +1025,13 @@ public final class UserManage extends javax.swing.JFrame {
             sloi += "address not null\n";
         }
         if("".equals(phoneNumberAdd)){
-            sloi += "phoneNumber not null\n";
+            sloi += "Email not null\n";
         }
         if(!Ex.emailTrue(phoneNumberAdd) && !"".equals(phoneNumberAdd)){
             sloi += "email error!!\n";
         }
-        if(!Zdata.userDao.isEmptyEmail(phoneNumberAdd)){
-            sloi += "email is not empty!\n";
+        if(!Zdata.userDao.isExistEmail(phoneNumberAdd)){
+            sloi += "Email is exist!\n";
         }
         boolean isSelect = jRadioButton2.isSelected();
         boolean isMale = true;
@@ -1073,9 +1073,6 @@ public final class UserManage extends javax.swing.JFrame {
         try {
             // Ghi đối tượng person vào file JSON
             writer.writeValue(new File("user.json"), list);
-
-            // In ra thông báo thành công
-            System.out.println("Xuất file JSON thành công!");
         } catch (IOException e) {
             // Xử lý ngoại lệ nếu có
             e.printStackTrace();
