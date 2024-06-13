@@ -1002,7 +1002,7 @@ public final class BookManage extends javax.swing.JFrame {
         if(Zdata.bookDao.isBorrow(integerIdDelete)){
             Zdata.bookDao.delete(integerIdDelete);
         }else {
-            JOptionPane.showMessageDialog(null, "Can't delete borrowing book!");
+            JOptionPane.showMessageDialog(null, "Please re-check book id!");
         }
               
         //Zdata.bookDao.delete(integerIdDelete);

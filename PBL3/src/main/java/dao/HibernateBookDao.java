@@ -138,7 +138,7 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-            JOptionPane.showMessageDialog(null, "book is can not delete, because book have been used!!");
+            JOptionPane.showMessageDialog(null, "Book is can not delete, because book have been used!!");
             
         }
     }

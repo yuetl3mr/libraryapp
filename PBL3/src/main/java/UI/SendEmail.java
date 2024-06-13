@@ -8,7 +8,7 @@ import javax.mail.internet.*;
 public class SendEmail {
     public static void main(String[] args) {
         String myEmail = "yueeeee404@gmail.com";
-        String password = "kbwd dhai ldhc lsyp"; // Mật khẩu email của bạn
+        String password = "kbwd dhai ldhc lsyp"; 
         String toEmail = "yue.moee@gmail.com";// sua cai nay thanh thang muon sach
         String host = "smtp.gmail.com";
         String port = "587"; 
@@ -31,7 +31,6 @@ public class SendEmail {
             String emailContent = "This is a test email sent from Java.";
             message.setText(emailContent);
             Transport.send(message);
-            System.out.println("Email sent successfully!");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
