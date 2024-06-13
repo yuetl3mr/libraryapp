@@ -27,6 +27,8 @@ import dao.HibernateBookDtoDao;
 import dao.HibernateTransactionDao;
 import dao.TransactionDao;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import persistence.Return;
 import utils.SqlUtils;
 import utils.Zdata;
 
@@ -91,6 +93,9 @@ public class test {
 //            managerSystemDao.update(4, "123");
 //            userDao.update(5, "Hoang Kim Thach", "Quang Tri", "00000");
             // System.out.println(managerSystemDao.getById(1));
-            SqlUtils.generate("abc", transactionDao.getAllReturn());
+            //SqlUtils.generate("abc", transactionDao.getAllReturn());
+ //           userDao.update(2, "Bobb", "123123", "123123213");
+  //          SqlUtils.generate("test", userDao.getAll());
+        returnDao.save(new Return(51, 9,21,4,LocalDateTime.now()));
     }
 }

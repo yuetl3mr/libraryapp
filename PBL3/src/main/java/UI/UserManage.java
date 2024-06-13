@@ -1027,6 +1027,9 @@ public final class UserManage extends javax.swing.JFrame {
         if("".equals(phoneNumberAdd)){
             sloi += "phoneNumber not null\n";
         }
+        if(!Ex.emailTrue(phoneNumberAdd) && !"".equals(phoneNumberAdd)){
+            sloi += "email error!!\n";
+        }
         boolean isSelect = jRadioButton2.isSelected();
         boolean isMale = true;
         if (isSelect) {
@@ -1074,6 +1077,7 @@ public final class UserManage extends javax.swing.JFrame {
             // Xử lý ngoại lệ nếu có
             e.printStackTrace();
         }
+        JOptionPane.showMessageDialog(null, "success!!");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1148,9 +1152,12 @@ public final class UserManage extends javax.swing.JFrame {
             sloi += "address not null\n";
         }
         if("".equals(phoneNumber)){
-            sloi += "phoneNumber not null\n";
+            sloi += "email not null\n";
         }
-        if(sloi.equals("")){
+        if(!"".equals(phoneNumber) && !Ex.emailTrue(phoneNumber)){
+            sloi += "email error\n";
+        }
+        if(!sloi.equals("")){
             JOptionPane.showMessageDialog(null, sloi);
             return;
         }

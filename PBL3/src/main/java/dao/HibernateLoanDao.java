@@ -23,6 +23,8 @@ public class HibernateLoanDao extends AbstractHibernateDao implements LoanDao {
             + "ON borrow.loanId = loan.loanId\n"
             + "WHERE bookId = :pId and `status` = true";
 
+    
+    
     public Loan getLoan(Integer bookId){
         return openSession().createNativeQuery(getReturn,Loan.class).setParameter("pId", bookId).getResultList().get(0);
     }

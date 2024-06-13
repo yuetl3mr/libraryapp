@@ -20,11 +20,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import persistence.*;
 import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Ex {
-    
+
     public static LocalDateTime parseDateToLocalDateTime(String dateString) {
         // Định dạng của chuỗi ngày tháng năm
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -32,7 +33,7 @@ public class Ex {
         try {
             // Chuyển đổi chuỗi thành LocalDate
             LocalDate date = LocalDate.parse(dateString, dateFormatter);
-            
+
             // Tạo LocalDateTime từ LocalDate, với thời gian mặc định là 00:00:00
             return date.atStartOfDay();
         } catch (DateTimeParseException e) {
@@ -56,15 +57,14 @@ public class Ex {
     }
 
     public static void sendReceiptEmail(Integer UserId, JTable jTable) {
-        DefaultTableModel model = (DefaultTableModel)jTable.getModel();
-        int rowCount = model.getRowCount();
-        String myEmail = "yueeeee404@gmail.com";
-        String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
         User user = Zdata.userDao.get(UserId);
-        
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        int rowCount = model.getRowCount();
+        String myEmail = user.getPhoneNumber();
+        String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
+
         //String email = user.getPhoneNumber();
         //String toEmail = email;
-        
         String toEmail = "yuetl3mr@gmail.com";
         String host = "smtp.gmail.com";
         String port = "587";
@@ -73,9 +73,9 @@ public class Ex {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", port);
-        
+
         Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() { 
+            protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(myEmail, password);
             }
         });
@@ -111,7 +111,50 @@ public class Ex {
         }
     }
     
-        public static void sendReportEmail() {
+    public static void sendReceiptEmail(Integer UserId, String row1,String row2,String row3,String row4,String row5,String row6,String row7) {
+        User user = Zdata.userDao.get(UserId);
+        String myEmail = user.getPhoneNumber();
+        String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
+        //String email = user.getPhoneNumber();
+        //String toEmail = email;
+        String toEmail = "yuetl3mr@gmail.com";
+        String host = "smtp.gmail.com";
+        String port = "587";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(myEmail, password);
+            }
+        });
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(myEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("LMS - report");
+
+            String emailContent = "Book Borrowing eReceipt\n"
+                    + "total number of reader : " + row1
+                    + "\ntotal number of books : " + row2
+                    + "\nnumber of category : " + row3
+                    + "\nCategory with the most books: " + row4
+                    + "\nCategory with the least books :" + row5
+                    + "\nTotal transactions : " + row6
+                    + "\nTotal number of books currently on loan : " + row7;
+
+            message.setText(emailContent);
+            Transport.send(message);
+            JOptionPane.showMessageDialog(null, "access");
+            
+        } catch (MessagingException e) {
+        }
+    }
+
+    public static void sendReportEmail() {
         String myEmail = "yueeeee404@gmail.com";
         String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach        
         //String email = user.getPhoneNumber();
@@ -124,7 +167,7 @@ public class Ex {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", port);
-        
+
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() { // Sửa tên phương thức ở đây
                 return new PasswordAuthentication(myEmail, password);
@@ -136,10 +179,10 @@ public class Ex {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject("Libray eReport - LMS");
 
-            String emailContent = "Library Report\n" 
+            String emailContent = "Library Report\n"
                     + "Time : " + LocalDateTime.now() + "\n"
                     + "-------------------------------------------------------";
-                    //add them vao tu statistical
+            //add them vao tu statistical
             message.setText(emailContent);
             Transport.send(message);
             System.out.println("Email sent successfully!");

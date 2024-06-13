@@ -723,7 +723,10 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
+        if(jTextField10.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter id Reader!");
+            return;
+        }
         
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();

@@ -25,6 +25,7 @@ import utils.Zdata;
 import dto.BorrowDto;
 import java.time.LocalDateTime;
 import java.time.Month;
+import utils.Ex;
 
 /**
  *
@@ -42,38 +43,38 @@ public final class Statistical extends javax.swing.JFrame {
         showBarChart();
         showInit();
     }
-    
-    public void showInit(){
+
+    public void showInit() {
         List<Reader> readers = Zdata.readerDao.getAll();
         Integer MemberReader = 0;
-        for(Reader reader : readers){
+        for (Reader reader : readers) {
             MemberReader++;
         }
         jTextField5.setText("" + MemberReader);
         List<Book> books = Zdata.bookDao.getAll();
         Integer countBook = 0;
-        for(Book book : books){
+        for (Book book : books) {
             countBook++;
         }
         jTextField1.setText("" + countBook);
         List<Category> categorys = Zdata.categoryDao.getAll();
         Integer countCategory = 0;
-        for(Category category : categorys){
+        for (Category category : categorys) {
             countCategory++;
         }
         jTextField4.setText("" + countCategory);
-        
+
         List<BookDto> listBookDto = Zdata.bookDtoDao.getAll();
         Integer maxCount = 0;
         Integer minCount = 1000;
         String categoryMax = "";
         String categoryMin = "";
-        for(BookDto bookDto : listBookDto){
-            if(bookDto.getCount() > maxCount){
+        for (BookDto bookDto : listBookDto) {
+            if (bookDto.getCount() > maxCount) {
                 maxCount = bookDto.getCount();
                 categoryMax = bookDto.getName();
             }
-            if(bookDto.getCount() < minCount){
+            if (bookDto.getCount() < minCount) {
                 minCount = bookDto.getCount();
                 categoryMin = bookDto.getName();
             }
@@ -84,25 +85,25 @@ public final class Statistical extends javax.swing.JFrame {
         List<Borrow> borrows = Zdata.borrowDao.getAll();
         List<Return> returns = Zdata.returnDao.getAll();
         Integer countTransaction = 0;
-        for(Borrow borrow : borrows){
+        for (Borrow borrow : borrows) {
             countTransaction++;
         }
-        for(Return returnn : returns){
+        for (Return returnn : returns) {
             countTransaction++;
         }
         jTextField9.setText("" + countTransaction);
-        
+
         List<Loan> loans = Zdata.loanDao.getAll();
         Integer countLoan = 0;
-        for(Loan loan : loans){
-            if(loan.getStatus() == true){
+        for (Loan loan : loans) {
+            if (loan.getStatus() == true) {
                 countLoan++;
             }
         }
         jTextField3.setText("" + countLoan);
     }
-    
-    public void showLineChart(){
+
+    public void showLineChart() {
         List<Borrow> borrows = Zdata.borrowDao.getAll();
         int[] booksBorrowedPerMonth = new int[12];
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -112,33 +113,32 @@ public final class Statistical extends javax.swing.JFrame {
 //        dataset.setValue(100, "Amount", "april");
 //        dataset.setValue(80, "Amount", "may");
 //        dataset.setValue(250, "Amount", "june");
-        
-        
+
         for (Borrow borrow : borrows) {
             LocalDateTime borrowingTime = borrow.getReleaseTime();
             int month = borrowingTime.getMonthValue(); // Lấy tháng mượn sách
             booksBorrowedPerMonth[month - 1]++; // Tăng số lượng sách mượn trong tháng tương ứng
         }
-        
-         for (int i = 0; i < booksBorrowedPerMonth.length; i++) {
+
+        for (int i = 0; i < booksBorrowedPerMonth.length; i++) {
             dataset.setValue(booksBorrowedPerMonth[i], "Books Borrowed", Month.of(i + 1).toString());
         }
-         
-         JFreeChart linechart = ChartFactory.createLineChart("Books Borrowed Monthly", "Month", "Number of Books Borrowed", 
+
+        JFreeChart linechart = ChartFactory.createLineChart("Books Borrowed Monthly", "Month", "Number of Books Borrowed",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
-        
+
         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
         lineCategoryPlot.setBackgroundPaint(Color.white);
-        
+
         LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
         Color lineChartColor = new Color(204, 0, 51);
         lineRenderer.setSeriesPaint(0, lineChartColor);
-        
+
         ChartPanel lineChartPanel = new ChartPanel(linechart);
         panelLineChart.removeAll();
         panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
         panelLineChart.validate();
-        
+
 //        JFreeChart linechart = ChartFactory.createLineChart("contribution","monthly","amount", 
 //                dataset, PlotOrientation.VERTICAL, false,true,false);
 //         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
@@ -152,51 +152,50 @@ public final class Statistical extends javax.swing.JFrame {
 //        panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
 //        panelLineChart.validate();
     }
-    
-    public void showPieChart(){
-        
+
+    public void showPieChart() {
+
         // Chia làm 2 -> số người dùng có giới tính nam, số người dùng có giới tính nữ
         //create dataset
-      List<User> users = Zdata.userDao.getAll();
-      Integer male = 0;
-      Integer female = 0;
-      for(User user : users){
-          if(user.isGender()){
-              female++;
-          }else {
-              male++;
-          }
-      }
-      
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue("male" , Double.valueOf(male));  
-      barDataset.setValue("female" , Double.valueOf(female));     
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Reader",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("Male", new Color(255,255,102));
-        piePlot.setSectionPaint("Female", new Color(102,255,102));
-      
-       
+        List<User> users = Zdata.userDao.getAll();
+        Integer male = 0;
+        Integer female = 0;
+        for (User user : users) {
+            if (user.isGender()) {
+                female++;
+            } else {
+                male++;
+            }
+        }
+
+        DefaultPieDataset barDataset = new DefaultPieDataset();
+        barDataset.setValue("male", Double.valueOf(male));
+        barDataset.setValue("female", Double.valueOf(female));
+
+        //create chart
+        JFreeChart piechart = ChartFactory.createPieChart("Reader", barDataset, false, true, false);//explain
+
+        PiePlot piePlot = (PiePlot) piechart.getPlot();
+
+        //changing pie chart blocks colors
+        piePlot.setSectionPaint("Male", new Color(255, 255, 102));
+        piePlot.setSectionPaint("Female", new Color(102, 255, 102));
+
         piePlot.setBackgroundPaint(Color.white);
-        
+
         //create chartPanel to display chart(graph)
         ChartPanel barChartPanel = new ChartPanel(piechart);
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
     }
-    
-    public void showBarChart(){
+
+    public void showBarChart() {
         //=> Số lượng sách đang mượn của mỗi category
         List<BookDto> bookDtos = Zdata.bookDtoDao.getAllBorrow();
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for(BookDto bookDto : bookDtos){
+        for (BookDto bookDto : bookDtos) {
             dataset.setValue(bookDto.getCount(), "Amount", bookDto.getName());
         }
 //        dataset.setValue(200, "Amount", "january");
@@ -205,10 +204,10 @@ public final class Statistical extends javax.swing.JFrame {
 //        dataset.setValue(100, "Amount", "april");
 //        dataset.setValue(80, "Amount", "may");
 //        dataset.setValue(250, "Amount", "june");
-        
-        JFreeChart chart = ChartFactory.createBarChart("Books borrowed by category","Category","Amount", 
-                dataset, PlotOrientation.VERTICAL, false,true,false);
-        
+
+        JFreeChart chart = ChartFactory.createBarChart("Books borrowed by category", "Category", "Amount",
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         //categoryPlot.setRangeGridlinePaint(Color.BLUE);
         categoryPlot.setBackgroundPaint(Color.WHITE);
@@ -219,7 +218,6 @@ public final class Statistical extends javax.swing.JFrame {
         BarChart.add(barpChartPanel, BorderLayout.CENTER);
         BarChart.validate();
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -863,6 +861,7 @@ public final class Statistical extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        Ex.sendReceiptEmail(LoginPage.staffId, jTextField5.getText(), jTextField1.getText(), jTextField4.getText(), jTextField2.getText(), jTextField7.getText(), jTextField9.getText(), jTextField3.getText());
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked

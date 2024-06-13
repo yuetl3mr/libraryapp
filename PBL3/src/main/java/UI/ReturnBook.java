@@ -27,6 +27,8 @@ import persistence.Borrow;
 import persistence.Loan;
 import persistence.Return;
 import utils.Ex;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -43,6 +45,7 @@ public final class ReturnBook extends javax.swing.JFrame {
     }
 
     public void showPieChart() {
+        set = new HashSet<Integer>();
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
     }
@@ -667,6 +670,7 @@ public final class ReturnBook extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
+
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();
         for (int i = 0; i < rowCount; i++) {
@@ -700,11 +704,17 @@ public final class ReturnBook extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
             int i = jTable1.getSelectedRow();
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            if (set.add(i)) {
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-            Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
-            model.addRow(rowData);
+                Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
+                model.addRow(rowData);
+            }
 
+//            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+//
+//            Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
+//            model.addRow(rowData);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -861,4 +871,5 @@ public final class ReturnBook extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField11;
     private java.awt.TextField textField1;
     // End of variables declaration//GEN-END:variables
+    private Set<Integer> set;
 }
