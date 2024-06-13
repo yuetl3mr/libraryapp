@@ -24,9 +24,7 @@ public class HibernateUserDao extends AbstractHibernateDao implements UserDao {
             + "ON reader.userId = `user`.userId\n"
             + "WHERE `user`.`name` LIKE :pName";
     
-    private static final String isEmptyEmail = "SELECT `user`.*\n"
-            + "FROM reader\n"
-            + "Where phoneNumber = :pEmail\n";
+    private static final String isEmptyEmail = "SELECT * FROM `user` Where phoneNumber = :pEmail\n";
     
 
     public boolean isEmptyEmail(String string) {
