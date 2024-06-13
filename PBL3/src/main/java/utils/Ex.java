@@ -118,7 +118,7 @@ public class Ex {
         String password = "rgdb hagv etuj opdo"; // Mật khẩu email của bạn// sua cai nay thanh thang muon sach
         //String email = user.getPhoneNumber();
         //String toEmail = email;
-        String toEmail = "yuetl3mr@gmail.com";
+        String toEmail = user.getPhoneNumber();
         String host = "smtp.gmail.com";
         String port = "587";
         Properties props = new Properties();
@@ -198,7 +198,7 @@ public class Ex {
 
     // xử lí địa chỉ 
     public static boolean addressTrue(String string) {
-        if (string == "") {
+        if (string.equals("")) {
             return false;
         }
         return true;

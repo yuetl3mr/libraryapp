@@ -23,6 +23,8 @@ public interface UserDao {
         List<User> getAllReader();
         
         List<User> getAllFindNameReader(String Name);
+        
+        boolean isEmptyEmail(String string);
 	
 	// sử dụng cho function
 	

@@ -1030,6 +1030,9 @@ public final class UserManage extends javax.swing.JFrame {
         if(!Ex.emailTrue(phoneNumberAdd) && !"".equals(phoneNumberAdd)){
             sloi += "email error!!\n";
         }
+        if(!Zdata.userDao.isEmptyEmail(phoneNumberAdd)){
+            sloi += "email is not empty!\n";
+        }
         boolean isSelect = jRadioButton2.isSelected();
         boolean isMale = true;
         if (isSelect) {
