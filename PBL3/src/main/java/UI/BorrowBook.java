@@ -25,6 +25,8 @@ import persistence.Borrow;
 import persistence.Loan;
 import utils.Ex;
 import utils.Zdata;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -35,8 +37,6 @@ public final class BorrowBook extends javax.swing.JFrame {
     /**
      * Creates new form MainUI
      */
-    
-    
     public BorrowBook() {
         initComponents();
         showPieChart();
@@ -44,6 +44,7 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     public void showPieChart() {
 
+        set = new HashSet<>();
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
@@ -327,6 +328,11 @@ public final class BorrowBook extends javax.swing.JFrame {
         jPanel18.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel21.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -686,7 +692,7 @@ public final class BorrowBook extends javax.swing.JFrame {
         if (Ex.isNumberic(searchId)) {
             if (Zdata.readerDao.get(Integer.parseInt(searchId)) != null) {
                 jTextField10.setText(Zdata.userDao.get(Integer.parseInt(searchId)).getName());
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "Không tồn tại reader này", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 jTextField10.setText("");
@@ -703,8 +709,11 @@ public final class BorrowBook extends javax.swing.JFrame {
             int i = jTable1.getSelectedRow();
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             if ("true".equals(String.valueOf(jTable1.getValueAt(i, 4)))) {
-                Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
-                model.addRow(rowData);
+                if (set.add(i) == true) {
+                    Object[] rowData = {jTable1.getValueAt(i, 0), jTable1.getValueAt(i, 1)};
+                    model.addRow(rowData);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "Sách đã có người mượn", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
@@ -714,19 +723,27 @@ public final class BorrowBook extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);
+        
+        
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();
+        if(rowCount == 0){
+            JOptionPane.showMessageDialog(null, "borrow list is null !!!");
+            return;
+        }
+        Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);
         for (int i = 0; i < rowCount; i++) {
             Integer bookId = (Integer) jTable2.getValueAt(i, 0);
             Zdata.loanDao.save(new Loan(Zdata.loanDao.maxId() + 1, "muon sach", true));
-            Zdata.borrowDao.save(new Borrow(Zdata.loanDao.maxId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now(), LocalDateTime.now().plusDays(90)));
+            Borrow borrow = new Borrow(Zdata.loanDao.maxId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now(), LocalDateTime.now().plusDays(90));
+            //System.out.println(borrow);
+            Zdata.borrowDao.save(borrow);
             Zdata.bookDao.setFalse(bookId);
         }
         model.setRowCount(0);
-        
+
         List<Book> books = Zdata.bookDao.getAll();
-        
+
         DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
         model1.setRowCount(0);
         for (Book book : books) {
@@ -809,6 +826,11 @@ public final class BorrowBook extends javax.swing.JFrame {
         new ViewTransaction().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        new Logout().setVisible(true);
+    }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
      * @param args the command line arguments
@@ -909,4 +931,5 @@ public final class BorrowBook extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField11;
     private java.awt.TextField textField1;
     // End of variables declaration//GEN-END:variables
+    private Set<Integer> set;
 }

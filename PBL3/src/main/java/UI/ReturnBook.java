@@ -297,6 +297,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         jPanel18.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel21.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -642,7 +647,22 @@ public final class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       new ReturnAllAlert().setVisible(true);
+        int response = JOptionPane.showConfirmDialog(null,
+                "Return all Books?", "confirm",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int rowCount = model.getRowCount();
+            for (int i = 0; i < rowCount; i++) {
+                Integer bookId = (Integer) jTable1.getValueAt(i, 0);
+                Loan loan = Zdata.loanDao.getLoan(bookId);
+                Zdata.loanDao.update(loan.getLoanId(), "tra sach", false);
+                Zdata.returnDao.save(new Return(loan.getLoanId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now()));
+                Zdata.bookDao.setTrue(bookId);
+            }
+            model.setRowCount(0);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -653,8 +673,6 @@ public final class ReturnBook extends javax.swing.JFrame {
             Integer bookId = (Integer) jTable2.getValueAt(i, 0);
             Loan loan = Zdata.loanDao.getLoan(bookId);
             Zdata.loanDao.update(loan.getLoanId(), "tra sach", false);
-            //Zdata.returnDao.save(new Return(maxIdReturn + 1, bookId, bookId, bookId, LocalDateTime.MIN));
-            // sửa file comment lại là xong
             Zdata.returnDao.save(new Return(loan.getLoanId(), Integer.parseInt(jTextField11.getText()), bookId, LoginPage.staffId, LocalDateTime.now()));
             Zdata.bookDao.setTrue(bookId);
         }
@@ -720,8 +738,8 @@ public final class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel18MouseClicked
 
     private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
-       new Statistical().setVisible(true);
-       dispose();
+        new Statistical().setVisible(true);
+        dispose();
     }//GEN-LAST:event_jPanel19MouseClicked
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
@@ -739,6 +757,11 @@ public final class ReturnBook extends javax.swing.JFrame {
         // TODO add your handling code here:
         new AccountInfo().setVisible(true);
     }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        new Logout().setVisible(true);
+    }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
      * @param args the command line arguments

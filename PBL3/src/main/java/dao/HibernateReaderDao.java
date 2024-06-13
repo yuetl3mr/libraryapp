@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import dao.template.AbstractHibernateDao;
+import javax.swing.JOptionPane;
 import persistence.Reader;
 import persistence.Return;
 
@@ -52,7 +53,7 @@ public class HibernateReaderDao extends AbstractHibernateDao implements ReaderDa
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Only newly created users who have not used the book can be deleted");
 		}
 	}
 }

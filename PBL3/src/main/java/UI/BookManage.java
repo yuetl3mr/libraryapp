@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import jdk.internal.org.jline.terminal.TerminalBuilder;
 
 /**
  *
@@ -334,6 +335,11 @@ public final class BookManage extends javax.swing.JFrame {
         jPanel18.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel21.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -936,12 +942,29 @@ public final class BookManage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        if(!Ex.isNumberic(jTextField5.getText()) || !Ex.isNumberic(jTextField6.getText())){
+            JOptionPane.showMessageDialog(null,"categoryId or amount is number !!");
+            return;
+        }
         String nameText = jTextField2.getText();
         String authorText = jTextField3.getText();
         LocalDate publicationText = Ex.parseToLocalDate(jTextField4.getText());
         Integer categoryText = Integer.parseInt(jTextField5.getText());
         Integer amountText = Integer.parseInt(jTextField6.getText());
         // them succes
+        //System.out.println(publicationText);
+        String sloi = "";
+        if("".equals(nameText)){
+            sloi += "name not null\n";
+        }if("".equals(authorText)){
+            sloi += "author not null\n";
+        }if(publicationText.equals(null)){
+            sloi += "publication error!!!\n";
+        }
+        if(!sloi.equals("")){
+            JOptionPane.showMessageDialog(null,sloi);
+        }
         Zdata.bookDao.saveAmount(categoryText, nameText, authorText, publicationText, true, amountText);
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -976,7 +999,13 @@ public final class BookManage extends javax.swing.JFrame {
         // TODO add your handling code here:
         String deleteIdText = jTextField7.getText();
         Integer integerIdDelete = Integer.parseInt(deleteIdText);
-        Zdata.bookDao.delete(integerIdDelete);
+        if(Zdata.bookDao.isBorrow(integerIdDelete)){
+            Zdata.bookDao.delete(integerIdDelete);
+        }else {
+            JOptionPane.showMessageDialog(null, "book is borrow not delete !!!");
+        }
+              
+        //Zdata.bookDao.delete(integerIdDelete);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1039,6 +1068,11 @@ public final class BookManage extends javax.swing.JFrame {
         new ViewTransaction().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        new Logout().setVisible(true);
+    }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
      * @param args the command line arguments

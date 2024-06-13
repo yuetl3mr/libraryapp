@@ -15,7 +15,7 @@ public class LoginPage extends javax.swing.JFrame {
      * Creates new form login
      */
     
-    public static Integer staffId = 0;
+    public static Integer staffId = 4;
     
     public LoginPage() {
         initComponents();

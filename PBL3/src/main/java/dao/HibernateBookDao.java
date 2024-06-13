@@ -8,9 +8,12 @@ import org.hibernate.Transaction;
 
 import dao.template.AbstractHibernateDao;
 import java.math.BigInteger;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import persistence.Book;
 import persistence.Loan;
 import persistence.Return;
+import org.hibernate.query.NativeQuery;
 
 public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 
@@ -38,6 +41,13 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
             + "on book.bookId = borrow.bookId\n"
             + "WHERE borrow.userId = :pId and loan.`status` = 1";
 
+    private static final String saveBook = "INSERT INTO BOOK (bookId, categoryId, `name`, author, publication, `status`) VALUES \n" +
+                                           "(:pbookId, :pcategoryId, :pname, :pauthor, :ppublication, :pstatus)";
+    
+    private static final String isBorrow = "SELECT *\n" +
+                                           "FROM book\n" +
+                                           "WHERE bookId = :pId and `status` = 1";
+    
     @Override
     public List<Book> getAllFindName(String string) {
         return openSession().createNativeQuery(findName, Book.class).setParameter("pString", "%" + string + "%").getResultList();
@@ -66,16 +76,45 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
         return books;
     }
 
+//    @Override
+//    public void save(Book book) {
+//        Session session = openSession();
+//        Transaction transaction = session.beginTransaction();
+//        try {
+//            session.save(book);
+//            transaction.commit();
+//        } catch (Exception e) {
+//            transaction.rollback();
+//            e.printStackTrace();
+//        }
+//    }
+    
     @Override
     public void save(Book book) {
         Session session = openSession();
         Transaction transaction = session.beginTransaction();
+        LocalDate date = book.getPublication();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = date.format(formatter);
         try {
-            session.save(book);
+            NativeQuery<?> query = session.createNativeQuery(saveBook);
+            query.setParameter("pbookId", book.getBookId())
+                 .setParameter("pcategoryId", book.getCategoryId())
+                 .setParameter("pname", book.getName())
+                 .setParameter("pauthor", book.getAuthor())
+                 .setParameter("ppublication", date)
+                 .setParameter("pstatus", book.isStatus());
+            query.executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -99,7 +138,8 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "book is can not delete, because book have been used!!");
+            
         }
     }
 
@@ -176,6 +216,15 @@ public class HibernateBookDao extends AbstractHibernateDao implements BookDao {
 
     public List<Book> getAllBorrowBookById(Integer userId) {
         return openSession().createNativeQuery(getAllBorrowById, Book.class).setParameter("pId", userId).getResultList();
+    }
+    
+    public boolean isBorrow(Integer bookId){
+        List<Book> books = openSession().createNativeQuery(isBorrow, Book.class).setParameter("pId", bookId).getResultList();
+        if (books.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

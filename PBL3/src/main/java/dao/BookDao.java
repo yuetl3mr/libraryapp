@@ -40,4 +40,6 @@ public interface BookDao {
         void setTrue(Integer BookId);
         
         List<Book> getAllBorrowBookById(Integer UserId);
+        
+        boolean isBorrow(Integer bookId);
 }

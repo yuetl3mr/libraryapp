@@ -332,6 +332,11 @@ public final class UserManage extends javax.swing.JFrame {
         jPanel18.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 160, 20));
 
         jPanel21.setBackground(new java.awt.Color(198, 235, 197));
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -970,23 +975,23 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String select = (String)jComboBox1.getSelectedItem();
+        String select = (String) jComboBox1.getSelectedItem();
         String[] columnNames = {"User Id", "Name", "Addr", "PhoneNum"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         List<User> users = new ArrayList<>();
-        if("".equals(jTextField1.getText())){
+        if ("".equals(jTextField1.getText())) {
             users = Zdata.userDao.getAllReader();
-        }else {
-            if("UserID".equals(select)){
-                if(Ex.isNumberic(jTextField1.getText())){
+        } else {
+            if ("UserID".equals(select)) {
+                if (Ex.isNumberic(jTextField1.getText())) {
                     Integer numberId = Integer.parseInt(jTextField1.getText());
-                    if(Zdata.readerDao.get(numberId) != null){
+                    if (Zdata.readerDao.get(numberId) != null) {
                         users = Zdata.userDao.getUserId(numberId);
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Nhập số mã ReaderId", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            }else if("Name".equals(select)){
+            } else if ("Name".equals(select)) {
                 users = Zdata.userDao.getAllFindNameReader(jTextField1.getText());
             }
         }
@@ -1009,9 +1014,19 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String sloi = "";
         String nameAdd = jTextField2.getText();
         String addressAdd = jTextField3.getText();
         String phoneNumberAdd = jTextField4.getText();
+        if("".equals(nameAdd)){
+            sloi += "name not null\n";
+        }
+        if("".equals(addressAdd)){
+            sloi += "address not null\n";
+        }
+        if("".equals(phoneNumberAdd)){
+            sloi += "phoneNumber not null\n";
+        }
         boolean isSelect = jRadioButton2.isSelected();
         boolean isMale = true;
         if (isSelect) {
@@ -1022,12 +1037,18 @@ public final class UserManage extends javax.swing.JFrame {
                 isMale = false;
             }
         } else {
+            sloi += "gender not null\n";
+        }
+        if(!"".equals(sloi)){
+            JOptionPane.showMessageDialog(null, sloi);
+            return;
         }
         Integer maxId = Zdata.userDao.maxId() + 1;
         User user = new User(maxId, nameAdd, addressAdd, phoneNumberAdd, isMale);
         Zdata.userDao.save(user);
         Reader reader = new Reader(maxId, LocalDateTime.now());
         Zdata.readerDao.save(reader);
+        JOptionPane.showMessageDialog(null, "add success !!");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -1057,6 +1078,7 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        
         String idDelete = jTextField7.getText();
         if (Zdata.readerDao.get(Integer.parseInt(idDelete)) != null) {
             Zdata.readerDao.delete(Integer.parseInt(idDelete));
@@ -1115,11 +1137,25 @@ public final class UserManage extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-
+        String sloi = ""; 
         String nameUpdate = jTextField6.getText();
         String addressUpdate = jTextField8.getText();
         String phoneNumber = jTextField9.getText();
+        if("".equals(nameUpdate)){
+            sloi += "name not null\n";
+        }
+        if("".equals(addressUpdate)){
+            sloi += "address not null\n";
+        }
+        if("".equals(phoneNumber)){
+            sloi += "phoneNumber not null\n";
+        }
+        if(sloi.equals("")){
+            JOptionPane.showMessageDialog(null, sloi);
+            return;
+        }
         Zdata.userDao.update(Integer.parseInt(jTextField5.getText()), nameUpdate, addressUpdate, phoneNumber);
+        JOptionPane.showMessageDialog(null, "edit success !!!");
         //String 
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -1166,6 +1202,11 @@ public final class UserManage extends javax.swing.JFrame {
         new Statistical().setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        new Logout().setVisible(true);
+    }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
      * @param args the command line arguments
