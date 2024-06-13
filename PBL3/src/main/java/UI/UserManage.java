@@ -1135,6 +1135,7 @@ public final class UserManage extends javax.swing.JFrame {
             jTextField6.setText(user.getName());
             jTextField8.setText(user.getAddress());
             jTextField9.setText(user.getPhoneNumber());
+            emailEdit = user.getPhoneNumber();
         };
 
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -1156,6 +1157,9 @@ public final class UserManage extends javax.swing.JFrame {
         }
         if(!"".equals(phoneNumber) && !Ex.emailTrue(phoneNumber)){
             sloi += "email error\n";
+        }
+        if(!Zdata.userDao.isExistEmail(phoneNumber) && !emailEdit.equals(phoneNumber)){
+            sloi += "Email is exist!\n";
         }
         if(!sloi.equals("")){
             JOptionPane.showMessageDialog(null, sloi);
@@ -1332,4 +1336,5 @@ public final class UserManage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+    private String emailEdit;
 }
