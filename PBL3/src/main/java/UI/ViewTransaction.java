@@ -611,7 +611,7 @@ public class ViewTransaction extends javax.swing.JFrame {
         });
         jPanel23.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 302, 30));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LoanID", "UserID", "BookID", "TransactionTime" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LoanID", "UserID", "BookID" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
