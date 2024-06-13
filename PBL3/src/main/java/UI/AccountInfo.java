@@ -328,12 +328,12 @@ public class AccountInfo extends javax.swing.JFrame {
         if(oldPass.equals(managerSystem.getPassword())){
             if(newPass.equals(newPassConfirm)){
                 Zdata.managerSystemDao.update(LoginPage.staffId, newPass);
-                JOptionPane.showMessageDialog(null, "Đổi thành công", "đổi mật khẩu", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Success!", "Change password", JOptionPane.ERROR_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(null, "Nhập lại mật khẩu sai", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please re-check password!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "sai mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please re-check password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 

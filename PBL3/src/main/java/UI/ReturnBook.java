@@ -641,7 +641,7 @@ public final class ReturnBook extends javax.swing.JFrame {
                     jTable1.setModel(model);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "hãy nhập số Reader ID!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please re-check reader id!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -989,7 +989,7 @@ public final class UserManage extends javax.swing.JFrame {
                         users = Zdata.userDao.getUserId(numberId);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Nhập số mã ReaderId", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter ReaderId", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if ("Name".equals(select)) {
                 users = Zdata.userDao.getAllFindNameReader(jTextField1.getText());
@@ -1037,7 +1037,7 @@ public final class UserManage extends javax.swing.JFrame {
                 isMale = false;
             }
         } else {
-            sloi += "gender not null\n";
+            sloi += "Gender not null\n";
         }
         if(!"".equals(sloi)){
             JOptionPane.showMessageDialog(null, sloi);
@@ -1048,7 +1048,7 @@ public final class UserManage extends javax.swing.JFrame {
         Zdata.userDao.save(user);
         Reader reader = new Reader(maxId, LocalDateTime.now());
         Zdata.readerDao.save(reader);
-        JOptionPane.showMessageDialog(null, "add success !!");
+        JOptionPane.showMessageDialog(null, "Success!");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -1155,7 +1155,7 @@ public final class UserManage extends javax.swing.JFrame {
             return;
         }
         Zdata.userDao.update(Integer.parseInt(jTextField5.getText()), nameUpdate, addressUpdate, phoneNumber);
-        JOptionPane.showMessageDialog(null, "edit success !!!");
+        JOptionPane.showMessageDialog(null, "Success!");
         //String 
     }//GEN-LAST:event_jButton9ActionPerformed
 

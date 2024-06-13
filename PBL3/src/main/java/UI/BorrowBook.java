@@ -694,12 +694,12 @@ public final class BorrowBook extends javax.swing.JFrame {
                 jTextField10.setText(Zdata.userDao.get(Integer.parseInt(searchId)).getName());
 
             } else {
-                JOptionPane.showMessageDialog(null, "Không tồn tại reader này", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Reader not found!", "Error", JOptionPane.ERROR_MESSAGE);
                 jTextField10.setText("");
                 jTextField11.setText("");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Lỗi hãy nhập chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter number!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -715,7 +715,7 @@ public final class BorrowBook extends javax.swing.JFrame {
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Sách đã có người mượn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Book has been borrowed!", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -728,7 +728,7 @@ public final class BorrowBook extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount();
         if(rowCount == 0){
-            JOptionPane.showMessageDialog(null, "borrow list is null !!!");
+            JOptionPane.showMessageDialog(null, "Borrow list is null!");
             return;
         }
         Ex.sendReceiptEmail(Integer.parseInt(jTextField11.getText()), jTable2);

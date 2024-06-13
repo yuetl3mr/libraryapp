@@ -16,7 +16,7 @@ public class LoginPage extends javax.swing.JFrame {
      */
     
     public static Integer staffId = 4;
-    
+
     public LoginPage() {
         initComponents();
         showPieChart();
@@ -263,7 +263,7 @@ public class LoginPage extends javax.swing.JFrame {
             new MainUI().setVisible(true);
             dispose();
         }else {
-            JOptionPane.showMessageDialog(null, "Sai mật khẩu hoặc tài khoản.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please re-check username and password", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -904,7 +904,7 @@ public final class BookManage extends javax.swing.JFrame {
                 if(Ex.isNumberic(jTextField1.getText())){
                     books = Zdata.bookDao.getAllFindCategoryId(Integer.parseInt(jTextField1.getText())); 
                 }else{
-                    JOptionPane.showMessageDialog(null, "hãy nhập số theo bảng category", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter the number according to the category table!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }else if("Name".equals(selectValue)){
                 books = Zdata.bookDao.getAllFindName(jTextField1.getText());
@@ -914,7 +914,7 @@ public final class BookManage extends javax.swing.JFrame {
                 if(Ex.isNumberic(jTextField1.getText())){
                     books = Zdata.bookDao.getBookId(Integer.parseInt(jTextField1.getText())); 
                 }else{
-                    JOptionPane.showMessageDialog(null, "hãy nhập số BookId", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter BookID", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -944,7 +944,7 @@ public final class BookManage extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         if(!Ex.isNumberic(jTextField5.getText()) || !Ex.isNumberic(jTextField6.getText())){
-            JOptionPane.showMessageDialog(null,"categoryId or amount is number !!");
+            JOptionPane.showMessageDialog(null,"Pleases enter number!");
             return;
         }
         String nameText = jTextField2.getText();
@@ -956,11 +956,11 @@ public final class BookManage extends javax.swing.JFrame {
         //System.out.println(publicationText);
         String sloi = "";
         if("".equals(nameText)){
-            sloi += "name not null\n";
+            sloi += "Name not null\n";
         }if("".equals(authorText)){
-            sloi += "author not null\n";
+            sloi += "Author not null\n";
         }if(publicationText.equals(null)){
-            sloi += "publication error!!!\n";
+            sloi += "Publication error!!!\n";
         }
         if(!sloi.equals("")){
             JOptionPane.showMessageDialog(null,sloi);
@@ -1002,7 +1002,7 @@ public final class BookManage extends javax.swing.JFrame {
         if(Zdata.bookDao.isBorrow(integerIdDelete)){
             Zdata.bookDao.delete(integerIdDelete);
         }else {
-            JOptionPane.showMessageDialog(null, "book is borrow not delete !!!");
+            JOptionPane.showMessageDialog(null, "Can't delete borrowing book!");
         }
               
         //Zdata.bookDao.delete(integerIdDelete);
