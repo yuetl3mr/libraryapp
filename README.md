@@ -25,11 +25,11 @@ The **Library Management Application** is a Java-based software designed to opti
 3. Set up the database:
     - Create a database named `library_db`.
     - Run the SQL scripts located in the `src/main/sqlFinal/` directory to create the necessary tables.
-4. Configure the database connection in `application.properties` or `application.yml`:
+4. Configure the database connection in `hibernate.cfg.xml`:
     ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/library_db
-    spring.datasource.username=your_db_username
-    spring.datasource.password=your_db_password
+        <property name="connection.url">jdbc:mysql://localhost:3306/lbr</property>
+		<property name="connection.username">username</property>
+		<property name="connection.password">password</property>
     ```
 5. Build the project using Maven or Gradle:
     ```bash
