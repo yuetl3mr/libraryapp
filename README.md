@@ -28,8 +28,8 @@ The **Library Management Application** is a Java-based software designed to opti
 4. Configure the database connection in `hibernate.cfg.xml`:
     ```properties
         <property name="connection.url">jdbc:mysql://localhost:3306/lbr</property>
-		<property name="connection.username">username</property>
-		<property name="connection.password">password</property>
+	<property name="connection.username">username</property>
+	<property name="connection.password">password</property>
     ```
 5. Build the project using Maven or Gradle:
     ```bash
