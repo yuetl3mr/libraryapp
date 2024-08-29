@@ -27,7 +27,7 @@ The **Library Management Application** is a Java-based software designed to opti
     - Run the SQL scripts located in the `src/main/sqlFinal/` directory to create the necessary tables.
 4. Configure the database connection in `hibernate.cfg.xml`:
     ```properties
-        <property name="connection.url">jdbc:mysql://localhost:3306/lbr</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/lbr</property>
 	<property name="connection.username">username</property>
 	<property name="connection.password">password</property>
     ```
